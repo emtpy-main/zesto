@@ -22,4 +22,46 @@ export interface AppContextType{
     location : LocationData | null;
     loadingLocation : boolean;
     city : string;
+    cart : ICart[] | [];
+    fetchCart : ()=>Promise<void>;
+    subTotal : number;
+    quantity : number;
+}
+
+export interface IRestaurant{
+    _id:string;
+    name : string;
+    description ?: string;
+    image : string;
+    ownerId : string;
+    phone : number;
+    isVerified : boolean;
+    autoLocation : {
+        type : "Point",
+        coordinates : [number,number];
+        formattedAddress: string;
+    }
+    isOpen : boolean;
+    createdAt : Date;
+}
+
+export interface IMenuItem extends Document {
+    _id:string;
+    restaurantId:string;
+    name:string;
+    description ?: string;
+    image : string;
+    price : number;
+    isAvailable:boolean;
+    createdAt : Date;
+    updatedAt : Date;
+};
+
+export interface ICart{
+    userId : string;
+    restaurantId : string | IRestaurant;
+    itemId : string | IMenuItem;
+    quantity:number;
+    createdAt:Date;
+    updatedAt:Date;
 }

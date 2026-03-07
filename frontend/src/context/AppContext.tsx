@@ -6,8 +6,9 @@ import {
   type ReactNode,
 } from "react";
 import axios from "axios";
-import { authService } from "../main";
-import type { User,AppContextType, LocationData } from "../types";
+import { authService, restaurantService } from "../main";
+import type { User, AppContextType, LocationData, ICart } from "../types";
+import { Toaster } from "react-hot-toast";
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -21,8 +22,12 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [loading, setLoading] = useState(true);
 
   const [location, setLocation] = useState<LocationData | null>(null);
-  const [loadingLocation, setLoadingLocation] = useState(false);
+  const [loadingLocation, setLoadingLocation] = useState(true);
   const [city, setCity] = useState("Fetching Location...");
+
+  const [cart, setCart] = useState<ICart[]>([]);
+  const [subTotal, setSubTotal] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(0);
 
   async function fetchUser() {
     try {
@@ -48,47 +53,90 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     }
   }
 
+  async function fetchCart() {
+    if (!user || user.role !== "customer") return;
+    try {
+      const { data } = await axios.get(`${restaurantService}/api/cart/all`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setCart(data.cart || []);
+      setSubTotal(data.subTotal || 0);
+      setQuantity(data.cartLength || 0);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     fetchUser();
   }, []);
 
-  useEffect(()=>{
-    if(!navigator.geolocation) return alert("Please Allow Location to continue");
+  useEffect(() => {
+    if (user && user.role === "customer") {
+      fetchCart();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (!navigator.geolocation)
+      return alert("Please Allow Location to continue");
     setLoadingLocation(true);
 
-    navigator.geolocation.getCurrentPosition(async(position)=>{
-      const {latitude,longitude} = position.coords;
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const { latitude, longitude } = position.coords;
 
       try {
-        // api -> nominatim location api 
-        const res= await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+        );
         const data = await res.json();
-        
+
         setLocation({
           latitude,
           longitude,
-          formattedAddress : data.display_name || "current location"
-        })
+          formattedAddress: data.display_name || "current location",
+        });
 
         setCity(
-          data.address.city || data.address.town || data.address.village || "Your location"
+          data.address.city ||
+            data.address.town ||
+            data.address.village ||
+            "Your location",
         );
+        setLoadingLocation(false);
       } catch (error) {
-         setLocation({
+        setLocation({
           latitude,
           longitude,
-          formattedAddress : "current location"
-        })
+          formattedAddress: "current location",
+        });
         setCity("Failed to load");
+        setLoadingLocation(false);
       }
-    })
-
-  },[])
+    });
+  }, []);
   return (
     <AppContext.Provider
-      value={{ isAuth, loading, setIsAuth, setLoading, setUser, user , location,loadingLocation,city }}
+      value={{
+        isAuth,
+        loading,
+        setIsAuth,
+        setLoading,
+        setUser,
+        user,
+        location,
+        loadingLocation,
+        city,
+        cart,
+        fetchCart,
+        subTotal,
+        quantity,
+      }}
     >
       {children}
+      <Toaster />
     </AppContext.Provider>
   );
 };
