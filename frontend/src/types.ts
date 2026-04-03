@@ -58,10 +58,17 @@ export interface IMenuItem extends Document {
 };
 
 export interface ICart{
+    _id:string;
     userId : string;
     restaurantId : string | IRestaurant;
     itemId : string | IMenuItem;
     quantity:number;
     createdAt:Date;
     updatedAt:Date;
+}
+
+export interface IAddress{
+    _id:string;
+    formattedAddress : string;
+    mobile:number;
 }
