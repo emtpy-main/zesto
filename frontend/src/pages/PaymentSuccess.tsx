@@ -3,42 +3,63 @@ import { useAppData } from "../context/AppContext";
 import { useEffect } from "react";
 import { BiCheckCircle } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
+import { FiShoppingBag } from "react-icons/fi";
 
 const PaymentSuccess = () => {
   const { paymentId } = useParams<{ paymentId: string }>();
   const navigate = useNavigate();
   const { fetchCart } = useAppData();
+
   useEffect(() => {
     fetchCart();
   }, []);
+
   return (
-    <div className="flex min-h-[70vh] items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-sm text-center space-y-4">
-        <BiCheckCircle size={64} className="mx-auto text-green-500" />
-        <h1 className="text-2xl font-bold text-gray-800">Payment Successful</h1>
-        <p className="text-sm text-gray-500">
-          Your order has been placed successfully 🎉
-        </p>
+    <div className="flex min-h-[80vh] items-center justify-center bg-slate-50 px-4 font-sans selection:bg-red-100 selection:text-red-900">
+      <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-hidden rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-slate-200 text-center sm:p-8">
+        
+        <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 ring-8 ring-emerald-50/50">
+          <BiCheckCircle className="h-12 w-12 text-emerald-500" />
+        </div>
+
+        <div className="space-y-2">
+          <h1 className="text-2xl font-black tracking-tight text-slate-900">
+            Payment Successful!
+          </h1>
+          <p className="text-base text-slate-500">
+            Your order has been placed and is being sent to the kitchen. 🎉
+          </p>
+        </div>
+
         {paymentId && (
-          <div className="rounded-lg bg-gray-50">
-            <span className="text-gray-500">PaymentID:</span>
-            <p className="font-mono break-all text-gray-500">{paymentId}</p>
+          <div className="mx-auto mt-6 max-w-xs rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200 border-t border-dashed border-slate-300">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+              Transaction ID
+            </p>
+            <p className="mt-1 font-mono text-sm font-medium text-slate-700 break-all">
+              {paymentId}
+            </p>
           </div>
         )}
-        <div className="space-y-2 pt-2">
+
+        <div className="mt-8 space-y-3">
           <button
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#e23744] py-3 text-sm font-semibold text-white cursor-pointer"
+            className="group flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 py-3.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-red-700 hover:shadow-md active:scale-[0.98]"
+            onClick={() => navigate("/orders")}
+          >
+            Track Your Order
+            <BsArrowRight className="transition-transform group-hover:translate-x-1" size={18} />
+          </button>
+          
+          <button
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white py-3.5 text-sm font-semibold text-slate-600 shadow-sm transition-all hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.98]"
             onClick={() => navigate("/")}
           >
-            Order More <BsArrowRight size={16} />
-          </button>
-          <button
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#e23744] py-3 text-sm font-semibold text-white cursor-pointer"
-            onClick={() => navigate("/order")}
-          >
-            Your Orders <BsArrowRight size={16} />
+            <FiShoppingBag size={16} className="text-slate-400" />
+            Order Something Else
           </button>
         </div>
+
       </div>
     </div>
   );

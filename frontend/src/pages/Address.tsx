@@ -10,9 +10,9 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { restaurantService } from "../main";
 import L from "leaflet";
-import "leaflet/dist/leaflet.css"; // Ensure CSS is imported
+import "leaflet/dist/leaflet.css";
 import { LuLocateFixed } from "react-icons/lu";
-import { BiLoader, BiPlus, BiTrash } from "react-icons/bi";
+import { BiLoader, BiPlus, BiTrash, BiMapPin } from "react-icons/bi";
 
 // --- 🔧 Fix Leaflet Marker Icon Issue ---
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -29,7 +29,6 @@ interface Address {
   mobile: string;
 }
 
-// --- 🔧 Helper: Recenter map when state changes ---
 const RecenterMap = ({ lat, lng }: { lat: number; lng: number }) => {
   const map = useMap();
   useEffect(() => {
@@ -38,7 +37,6 @@ const RecenterMap = ({ lat, lng }: { lat: number; lng: number }) => {
   return null;
 };
 
-// 📍 Click-to-select location
 const LocationPicker = ({
   setLocation,
 }: {
@@ -52,7 +50,6 @@ const LocationPicker = ({
   return null;
 };
 
-// 🎯 Locate me button
 const LocateMeButton = ({
   onLocate,
 }: {
@@ -78,10 +75,10 @@ const LocateMeButton = ({
     <button
       type="button"
       onClick={locateUser}
-      className="absolute right-3 top-3 z-1000 flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-medium shadow-md hover:bg-gray-100"
+      className="absolute right-2 top-2 z-[1000] flex items-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-xs font-bold shadow-sm border border-gray-200 hover:bg-gray-50 transition-colors text-gray-700"
     >
-      <LuLocateFixed size={16} className="text-red-500" />
-      Use current location
+      <LuLocateFixed size={14} className="text-[#e23744]" />
+      Locate Me
     </button>
   );
 };
@@ -106,7 +103,7 @@ const AddAddressPage = () => {
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`,
         {
           headers: {
-            "User-Agent": "FoodDeliveryApp/1.0", // Required by Nominatim Policy
+            "User-Agent": "FoodDeliveryApp/1.0",
           },
         },
       );
@@ -124,7 +121,6 @@ const AddAddressPage = () => {
     fetchFormattedAddress(lat, lng);
   };
 
-  // 📡 Fetch addresses
   const fetchAddresses = async () => {
     try {
       setLoading(true);
@@ -145,7 +141,6 @@ const AddAddressPage = () => {
     fetchAddresses();
   }, []);
 
-  // ➕ Add address
   const addAddress = async () => {
     if (!mobile || mobile.length < 10) {
       toast.error("Please enter a valid mobile number");
@@ -184,7 +179,6 @@ const AddAddressPage = () => {
     }
   };
 
-  // 🗑 Delete address
   const deleteAddress = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this address?"))
       return;
@@ -205,109 +199,127 @@ const AddAddressPage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-800">Add New Address</h1>
-        <p className="text-gray-500 text-sm">
-          Tap on the map to pick your delivery location
-        </p>
-      </div>
+   <div className="relative min-h-screen bg-gray-50 font-sans overflow-hidden">
+  
+  {/* Background Blobs */}
+  <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-pink-200/50 blur-3xl"></div>
+  <div className="absolute -bottom-24 -right-12 h-[30rem] w-[30rem] rounded-full bg-blue-200/40 blur-3xl"></div>
+  <div className="absolute top-1/4 left-2/3 h-72 w-72 rounded-full bg-yellow-200/30 blur-3xl"></div>
 
-      {/* 🗺 Map Section */}
-      <div className="relative h-80 w-full overflow-hidden rounded-xl border-2 border-gray-100 shadow-inner">
-        <MapContainer
-          center={[latitude, longitude]}
-          zoom={13}
-          scrollWheelZoom={true}
-          className="h-full w-full"
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution="&copy; OpenStreetMap contributors"
-          />
-          <RecenterMap lat={latitude} lng={longitude} />
-          <LocationPicker setLocation={setLocation} />
-          <LocateMeButton onLocate={setLocation} />
+  {/* Main Content (added relative z-10 to sit above the blobs) */}
+  <div className="relative z-10 mx-auto max-w-6xl px-4 py-8 lg:py-12">
+    
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+      
+      {/* LEFT COLUMN */}
+      <div className="space-y-6 lg:col-span-7">
+        <div>
+          <h1 className="text-2xl font-black tracking-tight text-gray-900">Add Address</h1>
+          <p className="mt-0.5 text-sm text-gray-500">
+            Tap the map to pin your exact delivery location.
+          </p>
+        </div>
 
-          {isLocationSelected && <Marker position={[latitude, longitude]} />}
-        </MapContainer>
-      </div>
+        {/* Map Container */}
+        <div className="relative z-0 h-[350px] w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm lg:h-[500px]">
+          <MapContainer
+            center={[latitude, longitude]}
+            zoom={13}
+            scrollWheelZoom={true}
+            className="h-full w-full"
+            zoomControl={false}
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution="&copy; OpenStreetMap"
+            />
+            <RecenterMap lat={latitude} lng={longitude} />
+            <LocationPicker setLocation={setLocation} />
+            <LocateMeButton onLocate={setLocation} />
 
-      {/* 📍 Selection Display */}
-      <div className="space-y-4">
-        {formattedAddress ? (
-          <div className="rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm text-blue-800">
-            <span className="font-bold">📍 Selected Address:</span>{" "}
-            {formattedAddress}
-          </div>
-        ) : (
-          <div className="rounded-lg border border-dashed border-gray-300 p-4 text-center text-sm text-gray-400">
-            No location selected yet.
-          </div>
-        )}
+            {isLocationSelected && <Marker position={[latitude, longitude]} />}
+          </MapContainer>
+        </div>
 
-        <input
-          type="tel"
-          placeholder="Receiver's Mobile Number"
-          value={mobile}
-          onChange={(e) => setMobile(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-red-500 transition-all"
-        />
-
-        <button
-          disabled={adding || !isLocationSelected}
-          onClick={addAddress}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#E23744] px-4 py-4 font-bold text-white hover:bg-[#d32f3a] disabled:opacity-50 transition-colors shadow-lg"
-        >
-          {adding ? (
-            <BiLoader className="animate-spin" size={20} />
+        {/* Input Form */}
+        <div className="space-y-4 pt-2">
+          {formattedAddress ? (
+            <div className="flex items-start gap-3 rounded-lg border border-gray-200 bg-white/80 p-4 shadow-sm backdrop-blur-sm">
+              <BiMapPin className="mt-0.5 shrink-0 text-xl text-[#e23744]" />
+              <p className="leading-snug text-sm font-medium text-gray-800">
+                {formattedAddress}
+              </p>
+            </div>
           ) : (
-            <BiPlus size={20} />
+            <div className="rounded-lg border border-dashed border-gray-300 bg-white/50 p-4 text-center text-sm font-medium text-gray-500 backdrop-blur-sm">
+              No location pinned yet.
+            </div>
           )}
-          {adding ? "Saving..." : "Save Delivery Address"}
-        </button>
+
+          <input
+            type="tel"
+            placeholder="Receiver's Mobile Number"
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
+            className="w-full rounded-lg border border-gray-200 bg-white/90 px-4 py-3 text-sm shadow-sm transition-all outline-none backdrop-blur-sm focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744]"
+          />
+
+          <button
+            disabled={adding || !isLocationSelected}
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#e23744] px-4 py-3.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#c9313d] active:scale-[0.98] disabled:opacity-60"
+            onClick={() => addAddress()}
+          >
+            {adding ? (
+              <BiLoader className="animate-spin text-lg" />
+            ) : (
+              <BiPlus className="text-lg" />
+            )}
+            {adding ? "Saving..." : "Save Delivery Address"}
+          </button>
+        </div>
       </div>
 
-      <hr className="border-gray-100" />
-
-      {/* 📋 Saved Addresses List */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-700">
-          Your Saved Locations
+      {/* RIGHT COLUMN */}
+      <div className="space-y-6 border-t border-gray-200 pt-8 lg:col-span-5 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
+        <h2 className="text-xl font-bold text-gray-900">
+          Saved Locations
         </h2>
+
         {loading ? (
-          <div className="flex justify-center py-10">
-            <BiLoader className="animate-spin text-red-500" size={32} />
+          <div className="flex justify-center py-12">
+            <BiLoader className="animate-spin text-[#e23744]" size={32} />
           </div>
         ) : addresses.length === 0 ? (
-          <p className="text-center text-gray-400 py-6 italic border rounded-lg">
-            No addresses found.
-          </p>
+          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-200 bg-white/60 px-4 py-12 text-center backdrop-blur-sm">
+             <BiMapPin className="mb-3 text-4xl text-gray-300" />
+            <p className="text-sm text-gray-500">
+              You haven't saved any addresses yet.
+            </p>
+          </div>
         ) : (
-          <div className="grid gap-4">
+          <div className="space-y-3 lg:max-h-[700px] lg:overflow-y-auto lg:pr-2">
             {addresses.map((addr) => (
               <div
                 key={addr._id}
-                className="flex items-start justify-between rounded-xl border bg-white p-4 shadow-sm hover:border-red-100 transition-all"
+                className="group flex items-start justify-between rounded-xl border border-gray-200 bg-white/90 p-4 shadow-sm backdrop-blur-sm transition-all hover:border-[#e23744]/40 hover:shadow-md"
               >
-                <div className="space-y-1">
-                  <p className="text-sm font-semibold text-gray-800 leading-tight">
+                <div className="space-y-2 pr-4">
+                  <p className="line-clamp-3 leading-snug text-sm font-medium text-gray-800">
                     {addr.formattedAddress}
                   </p>
-                  <p className="text-xs text-gray-500 flex items-center gap-1">
-                    <span className="font-medium text-gray-700">Phone:</span>{" "}
-                    {addr.mobile}
+                  <p className="tracking-wide text-xs font-bold uppercase text-gray-400">
+                    Phone: <span className="text-gray-600">{addr.mobile}</span>
                   </p>
                 </div>
                 <button
                   onClick={() => deleteAddress(addr._id)}
                   disabled={deletingId === addr._id}
-                  className="ml-4 rounded-full p-2 text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors disabled:opacity-50"
+                  className="shrink-0 rounded-md p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500 disabled:opacity-50"
                 >
                   {deletingId === addr._id ? (
-                    <BiLoader size={18} className="animate-spin" />
+                    <BiLoader size={20} className="animate-spin" />
                   ) : (
-                    <BiTrash size={18} />
+                    <BiTrash size={20} />
                   )}
                 </button>
               </div>
@@ -315,7 +327,10 @@ const AddAddressPage = () => {
           </div>
         )}
       </div>
+
     </div>
+  </div>
+</div>
   );
 };
 

@@ -1,4 +1,5 @@
-import { getChannel } from "../config/rabbitmq.js";
+import axios from "axios";
+import { getChannel } from "./rabbitmq.js";
 import Order from "../model/Order.js";
 
 export const startPaymentConsumer = async () => {
@@ -7,7 +8,7 @@ export const startPaymentConsumer = async () => {
   channel.consume(process.env.PAYMENT_QUEUE!, async (msg) => {
     if (!msg) return;
 
-    let order;  
+    let order;
 
     try {
       const event = JSON.parse(msg.content.toString());
@@ -33,7 +34,7 @@ export const startPaymentConsumer = async () => {
             expiresAt: 1,
           },
         },
-        { new: true } 
+        { new: true },
       );
 
       if (!order) {
@@ -41,7 +42,25 @@ export const startPaymentConsumer = async () => {
         return;
       }
 
-      console.log("Order placed", order._id);
+      console.log("✅Order placed", order._id);
+      
+      // socket word
+      await axios.post(
+        `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+        {
+          event: "order:new",
+          room: `restaurant:${order.restaurantId}`,
+          payload: {
+            orderId: order._id,
+          },
+        },
+        {
+          headers: {
+            "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+          },
+        },
+      );
+
       channel.ack(msg); // ✅ don't forget this
     } catch (error) {
       console.error("Payment consumer Error: ", error);

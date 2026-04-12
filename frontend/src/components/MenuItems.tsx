@@ -78,43 +78,74 @@ const MenuItems = ({ items, onItemDeleted, isSeller }: MenuItemsProps) => {
       setLoadingItemId(null);
     }
   };
-  return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {items.map((item) => {
-        const isloading = loadingItemId === item._id;
 
-        return (
-          <div
-            className={`relative flex gap-4 rounded-lg bg-white p-4 shadow-sm ${!item.isAvailable ? "opacity-70" : ""}`}
-            key={item._id}
-          >
-            <div className="relative shrink-0">
-              <img
-                src={item.image}
-                alt={`${item.name}'s image`}
-                className={`h-20 w-20 rounded object-cover ${!item.isAvailable ? "grayscale brightness-75" : ""}`}
-              />
-              {!item.isAvailable && (
-                <span className="absolute inset-0 flex items-center justify-center rounded bg-black/60 text-xs font-semibold text-white">
-                  Not Available
-                </span>
-              )}
-            </div>
-            <div className="flex flex-1 flex-col justify-between">
-              <div>
-                <h3 className="font-semibold">{item.name}</h3>
-                {item.description && (
-                  <p className="text-sm text-gray-500 line-clamp-2">
-                    {item.description}
-                  </p>
+  return (
+    <div className="space-y-4">
+      <div className="flex items-end justify-between border-b border-slate-200 pb-3">
+        <div>
+          <h2 className="text-xl font-semibold tracking-tight text-slate-900">
+            Menu Items
+          </h2>
+          <p className="mt-1 text-sm text-slate-500">
+            Explore our delicious offerings
+          </p>
+        </div>
+        {items && (
+          <span className="hidden rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 sm:inline-block">
+            {items.length} {items.length === 1 ? "Item" : "Items"}
+          </span>
+        )}
+      </div>
+
+      {/* Menu Grid */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {items.map((item) => {
+          const isloading = loadingItemId === item._id;
+
+          return (
+            <div
+              key={item._id}
+              className={`group relative flex gap-4 rounded-lg bg-white p-3 shadow-sm ring-1 ring-slate-100 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 ${
+                !item.isAvailable ? "opacity-75" : ""
+              }`}
+            >
+              <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-md bg-slate-50 sm:h-32 sm:w-32">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+                    !item.isAvailable ? "grayscale brightness-75" : ""
+                  }`}
+                />
+                {!item.isAvailable && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-slate-900/50 backdrop-blur-[2px]">
+                    <span className="rounded-md bg-white/95 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-slate-900 shadow-sm">
+                      Sold Out
+                    </span>
+                  </div>
                 )}
-                <div className="flex items-center justify-between">
-                  <p className="font-medium">₹{item.price}</p>
+              </div>
+              <div className="flex flex-1 flex-col justify-between py-1 pr-1">
+                <div>
+                  <h3 className="text-base font-semibold tracking-tight text-slate-900 sm:text-lg">
+                    {item.name}
+                  </h3>
+                  {item.description && (
+                    <p className="mt-1 text-xs text-slate-500 line-clamp-2 sm:text-sm sm:leading-relaxed">
+                      {item.description}
+                    </p>
+                  )}
+                </div>
+                <div className="mt-3 flex items-end justify-between sm:mt-0">
+                  <p className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+                    ₹{item.price}
+                  </p>
                   {isSeller && (
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => toggleAvailability(item._id)}
-                        className="rounded-lg p-2 text-gray-600 hover:bg-gray-100"
+                        title={item.isAvailable ? "Hide Item" : "Show Item"}
+                        className="rounded-md p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-800 active:scale-95"
                       >
                         {item.isAvailable ? (
                           <BsEye size={18} />
@@ -124,7 +155,8 @@ const MenuItems = ({ items, onItemDeleted, isSeller }: MenuItemsProps) => {
                       </button>
                       <button
                         onClick={() => handleDelete(item._id)}
-                        className="rounded-lg p-2 text-red-500 hover:bg-red-50"
+                        title="Delete Item"
+                        className="rounded-md p-2 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600 active:scale-95"
                       >
                         <BiTrash size={18} />
                       </button>
@@ -133,27 +165,29 @@ const MenuItems = ({ items, onItemDeleted, isSeller }: MenuItemsProps) => {
                   {!isSeller && (
                     <button
                       disabled={!item.isAvailable || isloading}
-                       onClick={() => addToCart(item.restaurantId,item._id)}
-                      className={`flex items-center justify-center rounded-lg p-2 ${
+                      onClick={() => addToCart(item.restaurantId, item._id)}
+                      className={`flex items-center justify-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 ${
                         !item.isAvailable || isloading
-                          ? "cursor-not-allowed text-gray-400"
-                          : "text-red-500 hover:bg-red-50 cursor-pointer"
+                          ? "cursor-not-allowed bg-slate-100 text-slate-400"
+                          : "bg-red-50 text-red-600 hover:bg-red-600 hover:text-white hover:shadow-sm hover:shadow-red-600/20 active:scale-95"
                       }`}
                     >
                       {isloading ? (
                         <VscLoading size={18} className="animate-spin" />
                       ) : (
-                        <BsCartPlus 
-                        size={18} />
+                        <>
+                          <BsCartPlus size={18} />
+                          <span className="hidden sm:inline-block">Add</span>
+                        </>
                       )}
                     </button>
                   )}
                 </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };

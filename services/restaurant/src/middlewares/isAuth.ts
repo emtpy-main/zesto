@@ -64,13 +64,12 @@ export const isSeller = async (
 ): Promise<void | Response> => {
   const user = req.user;
 
-  console.log(user?.role === "seller");
-
   if (!user || user.role !== "seller") {
     return res.status(401).json({
       message: "You are not an authorized seller",
     });
   }
+
 
   next();
 };

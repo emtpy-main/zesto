@@ -8,7 +8,7 @@ import addressRoutes from './routes/address.js'
 import orderRoutes from './routes/order.js'
 import cors from 'cors';
 import { connectRabbitMQ } from './config/rabbitmq.js';
-import { startPaymentConsumer } from './controllers/payment.consumer.js';
+import { startPaymentConsumer } from './config/payment.consumer.js';
 dotenv.config();
 
 const app = express()
