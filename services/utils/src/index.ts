@@ -5,9 +5,9 @@ import cors from "cors";
 import uploadRoutes from "./routes/cloudinary";
 import paymentRoutes from './routes/payment'
 import { connectRabbitMQ } from "./config/rabbitmq";
+import { startEmailConsumer } from "./config/email.consumer";
 
 dotenv.config();
-connectRabbitMQ();
 const app = express();
 app.use(cors());
 
@@ -29,6 +29,18 @@ cloudinary.v2.config({
 
 app.use("/api",uploadRoutes);
 app.use("/api/payment",paymentRoutes)
-app.listen(PORT, () => {
-  console.log(`utils service is running on port ${PORT}`);
-});
+
+const bootstrap = async () => {
+  try {
+    await connectRabbitMQ();
+    await startEmailConsumer();
+ 
+    app.listen(PORT, () => {
+      console.log(`utils service is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start the application:", error);
+    process.exit(1);
+  }
+}; 
+bootstrap();

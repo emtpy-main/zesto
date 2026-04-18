@@ -4,6 +4,7 @@ import TryCatch from "../middlewares/trycatch.js";
 import { AuthenticatedRequest } from "../middlewares/isAuth.js";
 import { oauth2client } from "../config/googleConfig.js";
 import axios from "axios";
+import { publishEvent } from "../config/email.publish.js";
 
 // export const loginUser = TryCatch(async (req, res) => {
 //   const { code } = req.body;
@@ -36,7 +37,7 @@ import axios from "axios";
 //     user,
 //   });
 // });
-export const loginUser = TryCatch(async (req, res) => {
+export const googleLogin = TryCatch(async (req, res) => {
   try {
     const { code } = req.body;
 
@@ -119,7 +120,7 @@ export const addUserRole = TryCatch(async (req: AuthenticatedRequest, res) => {
   const token = jwt.sign({ user }, process.env.JWT_SEC as string, {
     expiresIn: "15d",
   });
-
+  publishEvent(user);
   return res.json({
     user,
     token,

@@ -41,7 +41,12 @@ export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
     lat2: number,
     lon2: number,
   ): number => {
-    console.log(`distance of order at latitude and longitude ${lat1} ${typeof lat1} : ${lon1} ${typeof lon1} :${lat2} ${typeof lat2} :${lon2} ${typeof lon2}`)
+    console.log(
+      `distance of order at latitude and longitude ${lat1} ${typeof lat1} : ${lon1} ${typeof lon1} :${lat2} ${typeof lat2} :${lon2} ${typeof lon2}`,
+    );
+    if (isNaN(lat1) || isNaN(lon1) || isNaN(lat2) || isNaN(lon2)) {
+      throw new Error("Invalid coordinates passed to distance calculator");
+    }
     const R = 6371;
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLon = ((lon2 - lon1) * Math.PI) / 180;
@@ -90,7 +95,19 @@ export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
       message: "Sorry this restaurant is closed for now",
     });
   }
-
+  const addressCoords = address.location?.coordinates;
+  const restaurantCoords = restaurant.autoLocation?.coordinates;
+  if (
+    !addressCoords ||
+    addressCoords.length < 2 ||
+    !restaurantCoords ||
+    restaurantCoords.length < 2
+  ) {
+    return res.status(400).json({
+      message:
+        "Delivery distance cannot be calculated. The restaurant or delivery address is missing GPS coordinates.",
+    });
+  }
   const distance = getDistanceKm(
     address.location.coordinates[1], // delivery address ka latitudes
     address.location.coordinates[0], // longitude
@@ -98,7 +115,14 @@ export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
     restaurant.autoLocation.coordinates[0], // restaurant ka longitudes
   );
 
-  console.log(`${restaurant.name } at distance ${distance}`)
+  if (isNaN(distance)) {
+    return res.status(400).json({
+      message:
+        "An error occurred while calculating the delivery distance. Please verify your address details.",
+    });
+  }
+
+  console.log(`${restaurant.name} at distance ${distance}`);
 
   let subTotal = 0;
   const orderItems = cartItems.map((cart) => {
@@ -117,12 +141,12 @@ export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
     };
   });
 
-  const deliveryFee = subTotal < 250 ? 49 : 0 as number;
+  const deliveryFee = subTotal < 250 ? 49 : (0 as number);
   const platformFee = 7 as number;
-  const totalAmount = subTotal + deliveryFee + platformFee as number;
+  const totalAmount = (subTotal + deliveryFee + platformFee) as number;
   const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
   const [longitude, latitude] = address.location.coordinates;
-  const riderAmount = Math.ceil(distance) * 17 as number;
+  const riderAmount = (Math.ceil(distance) * 17) as number;
 
   const order = await Order.create({
     userId: user._id.toString(),
@@ -356,15 +380,15 @@ export const assignRiderToOrder = TryCatch(async (req, res) => {
   const { orderId, riderId, riderName, riderPhone } = req.body;
 
   const orderAvailable = await Order.findOne({
-    riderId, 
-    status : {
-      $ne:"delivered"
-    }
-  })
-  if(orderAvailable) {
+    riderId,
+    status: {
+      $ne: "delivered",
+    },
+  });
+  if (orderAvailable) {
     return res.status(400).json({
-      message:"You already have an order"
-    })
+      message: "You already have an order",
+    });
   }
   const orderOlder = await Order.findById(orderId);
   if (orderOlder?.riderId !== null) {

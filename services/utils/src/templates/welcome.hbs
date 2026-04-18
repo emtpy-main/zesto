@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Zesto!</title>
+    <style> 
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+        
+        /* Base Styles */
+        body { margin: 0; padding: 0; background-color: #f4f7f6; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333333; }
+        .container { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        /* Header Theme #e23744 */
+        .header { background-color: #e23744; padding: 40px 30px; text-align: center; }
+        .header h1 { color: #ffffff; margin: 0; font-size: 32px; letter-spacing: 1px; font-weight: 800; }
+
+        /* Content */
+        .content { padding: 40px 30px; }
+        .content h2 { color: #2b2b2b; font-size: 24px; margin-top: 0; }
+        .content p { font-size: 16px; line-height: 1.6; color: #555555; }
+
+        /* Dynamic Role Feature Box */
+        .features { margin: 30px 0; background-color: #fdf5f6; border-left: 4px solid #e23744; padding: 20px; border-radius: 0 8px 8px 0; }
+        .feature-item { margin-bottom: 15px; font-size: 16px; color: #444; }
+        .feature-item:last-child { margin-bottom: 0; }
+        .feature-icon { font-size: 20px; margin-right: 10px; vertical-align: middle; }
+
+        /* Call to Action Button */
+        .btn-container { text-align: center; margin: 40px 0 20px 0; }
+        .btn { background-color: #e23744; color: #ffffff !important; text-decoration: none; padding: 14px 32px; font-size: 16px; font-weight: bold; border-radius: 8px; display: inline-block; box-shadow: 0 4px 6px rgba(226, 55, 68, 0.2); transition: background-color 0.3s; }
+
+        /* Custom Footer */
+        .footer { background-color: #f9fafb; padding: 30px; text-align: center; border-top: 1px solid #eeeeee; }
+        .footer p { font-size: 13px; color: #888888; margin: 5px 0; }
+        .signature { margin-top: 20px !important; font-weight: 700; color: #e23744 !important; letter-spacing: 0.5px; text-transform: uppercase; font-size: 11px !important; }
+
+        @media screen and (max-width: 600px) {
+            .container { margin: 0 auto; width: 100% !important; border-radius: 0; }
+            .content { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #f4f7f6;">
+        <tr>
+            <td align="center">
+                <div class="container">
+                    
+                    <div class="header">
+                        <h1>Zesto</h1>
+                    </div>
+
+                    <div class="content">
+                        <h2>Hi {{name}}, welcome to Zesto! 🎉</h2>
+                        
+                        {{#if isCustomer}}
+                        <p>Your account is ready. Get ready to explore the best local restaurants and have your favorite meals delivered blazing fast.</p>
+                        
+                        <div class="features">
+                            <p style="margin-top: 0; font-weight: bold; color: #2b2b2b;">Here is what you can do:</p>
+                            <div class="feature-item"><span class="feature-icon">🍔</span> <strong>Discover:</strong> Browse thousands of top-rated menus.</div>
+                            <div class="feature-item"><span class="feature-icon">⚡</span> <strong>Order:</strong> Enjoy lightning-fast delivery to your door.</div>
+                            <div class="feature-item"><span class="feature-icon">📍</span> <strong>Track:</strong> Watch your order arrive in real-time.</div>
+                        </div>
+                        
+                        <div class="btn-container">
+                            <a href="{{actionUrl}}" class="btn">Order Food Now</a>
+                        </div>
+                        {{/if}}
+
+                        {{#if isSeller}}
+                        <p>We are thrilled to partner with your kitchen. Zesto gives you the tools to reach thousands of hungry customers and grow your business.</p>
+                        
+                        <div class="features">
+                            <p style="margin-top: 0; font-weight: bold; color: #2b2b2b;">Your Partner Toolkit:</p>
+                            <div class="feature-item"><span class="feature-icon">📈</span> <strong>Dashboard:</strong> Track sales and live orders easily.</div>
+                            <div class="feature-item"><span class="feature-icon">🍲</span> <strong>Menu Manager:</strong> Update prices and items instantly.</div>
+                            <div class="feature-item"><span class="feature-icon">💸</span> <strong>Payouts:</strong> Fast, reliable weekly settlements.</div>
+                        </div>
+                        
+                        <div class="btn-container">
+                            <a href="{{actionUrl}}" class="btn">Access Seller Dashboard</a>
+                        </div>
+                        {{/if}}
+
+                        {{#if isRider}}
+                        <p>Welcome to the fleet! You are now part of the fastest delivery network in the city. Turn on your app and start earning today.</p>
+                        
+                        <div class="features">
+                            <p style="margin-top: 0; font-weight: bold; color: #2b2b2b;">Why drive with Zesto?</p>
+                            <div class="feature-item"><span class="feature-icon">🛵</span> <strong>Flexible:</strong> Work whenever you want.</div>
+                            <div class="feature-item"><span class="feature-icon">💰</span> <strong>Earnings:</strong> Get paid for every delivery + tips.</div>
+                            <div class="feature-item"><span class="feature-icon">🗺️</span> <strong>Smart Routing:</strong> Our app finds the fastest paths for you.</div>
+                        </div>
+                        
+                        <div class="btn-container">
+                            <a href="{{actionUrl}}" class="btn">Download Rider App</a>
+                        </div>
+                        {{/if}}
+
+                        {{#if isAdmin}}
+                        <p>Welcome to the command center. Your administrator account has been successfully provisioned. You now have full access to manage the Zesto platform.</p>
+                        
+                        <div class="features">
+                            <p style="margin-top: 0; font-weight: bold; color: #2b2b2b;">Admin Capabilities:</p>
+                            <div class="feature-item"><span class="feature-icon">📊</span> <strong>System Overview:</strong> Monitor platform health and real-time metrics.</div>
+                            <div class="feature-item"><span class="feature-icon">👥</span> <strong>User Management:</strong> Oversee Customers, Sellers, and Riders.</div>
+                            <div class="feature-item"><span class="feature-icon">⚙️</span> <strong>Configuration:</strong> Adjust system fees, zones, and app settings.</div>
+                        </div>
+                        
+                        <div class="btn-container">
+                            <a href="{{actionUrl}}" class="btn">Enter Admin Panel</a>
+                        </div>
+                        {{/if}}
+
+                        <p>If you have any questions, just reply to this email. We are here to help!</p>
+                    </div>
+
+                    <div class="footer">
+                        <p>You received this email because you are registered on the Zesto platform.</p>
+                        <p class="signature">Created and developed by pratiksingh</p>
+                    </div>
+
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

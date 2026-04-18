@@ -81,8 +81,9 @@ const Checkout = () => {
         },
       );
       return data;
-    } catch (error) {
-      toast.error("Failed to create order");
+    } catch (error:any) {
+      const errormessage = error.response?.data?.message + "Please add new address";
+      toast.error( errormessage || "Failed to create order");
     } finally {
       setCreatingOrder(false);
     }
@@ -152,7 +153,7 @@ const Checkout = () => {
           <p className="text-sm text-gray-500">Loading addresses...</p>
         ) : addresses.length === 0 ? (
           <p className="text-sm text-gray-500">
-            No address found. Please add one
+            No address found. Please add one <a href="/address" className="text-md text-blue-600 hover:text-blue-900 capitalize ">click to add</a>
           </p>
         ) : (
           addresses.map((add) => (

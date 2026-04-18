@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "prebuild": "copyfiles -u 1 src/templates/*.hbs dist/templates",
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"tsc --watch\" \"node --watch dist/index.js\""
+    "dev": "npm run prebuild && concurrently \"tsc --watch\" \"node --watch dist/index.js\""
   },
   "keywords": [],
   "author": "",
@@ -16,7 +17,9 @@
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/nodemailer": "^8.0.0",
     "concurrently": "^9.2.1",
+    "copyfiles": "^2.4.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
@@ -28,6 +31,8 @@
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "handlebars": "^4.7.9",
+    "nodemailer": "^8.0.5",
     "razorpay": "^2.9.6"
   }
 }

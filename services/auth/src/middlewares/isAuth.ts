@@ -38,10 +38,10 @@ export const isAuth = async (
         message: "Invalid token",
       });
     }
-
+    console.log("Request isauth middle : ", req.user);
     req.user = decodedValue.user;
 
-    return next(); // optional but clean
+    return next();  
   } catch (error) {
     return res.status(401).json({
       message: "Please Login - Jwt error",
