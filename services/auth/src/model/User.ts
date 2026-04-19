@@ -8,6 +8,7 @@ export interface IUser extends Document {
   role: string;
   password?: string;
   authProvider: "google" | "local";
+  createdAt:Date;
 }
 
 const schema: Schema<IUser> = new Schema(

@@ -117,10 +117,17 @@ export const addUserRole = TryCatch(async (req: AuthenticatedRequest, res) => {
     });
   }
 
+  if(user.role === "rider" || user.role === "seller"){
+    const admins = await User.find({role:"admin"});
+
+    const adminEmails = admins.map(admin => admin.email);
+    publishEvent(user,adminEmails);
+  }else{
+    publishEvent(user);
+  }
   const token = jwt.sign({ user }, process.env.JWT_SEC as string, {
     expiresIn: "15d",
-  });
-  publishEvent(user);
+  }); 
   return res.json({
     user,
     token,
