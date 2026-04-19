@@ -292,7 +292,7 @@ export const updateOrderStatus = TryCatch(
 
     order.status = status;
     await order.save();
-    // socket works
+
     await axios.post(
       `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
       {
@@ -467,12 +467,69 @@ export const getCurrentOrderForRider = TryCatch(async (req, res) => {
 
 export const updateOrderStatusRider = TryCatch(async (req, res) => {
   if (req.headers["x-internal-key"] !== process.env.INTERNAL_SERVICE_KEY) {
-    return res.status(403).json({
-      message: "Forbidden",
-    });
+    return res.status(403).json({ message: "Forbidden" });
   }
 
   const { orderId } = req.body;
+
+  const order = await Order.findById({ _id: orderId });
+  if (!order) return res.status(404).json({ message: "Order not found" });
+
+  // Reverted to your exact hardcoded event name
+  const emitEvent = async (room: string) => {
+    return axios.post(
+      `${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,
+      {
+        event: "order:rider_assigned",
+        room,
+        payload: order,
+      },
+      {
+        headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY },
+      },
+    );
+  };
+
+  if (order.status !== "rider_assigned") {
+    // FIX: Missing 'return' added here to prevent execution continuing
+    return res.status(400).json({
+      message: `Cannot update order status. Current status is ${order.status}`,
+    });
+  }
+
+  //! otp generate for this order
+  // console.log("update order status: ", order._id.toString());
+  const { data } = await axios.post(
+    `${process.env.VERIFICATION_SERVICE}/api/internal/v1/generate`,
+    {
+      purpose: "DELIVERY",
+      targetId: order._id.toString(),
+      targetModel: "Order",
+      recipient: order.userId,
+    },
+    {
+      headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY },
+    },
+  );
+
+  order.status = "picked_up";
+  await order.save();
+
+  await Promise.all([
+    emitEvent(`user:${order.userId}`),
+    emitEvent(`restaurant:${order.restaurantId}`),
+  ]);
+
+  console.log("Order update status: ", data);
+  return res.json({ message: "Order updated successfully" });
+});
+
+export const confirmDelivery = TryCatch(async (req, res) => {
+  if (req.headers["x-internal-key"] !== process.env.INTERNAL_SERVICE_KEY) {
+    return res.status(403).json({ message: "Forbidden" });
+  }
+
+  const { orderId, otpCode } = req.body;
 
   const order = await Order.findById({ _id: orderId });
   if (!order) return res.status(404).json({ message: "Order not found" });
@@ -486,36 +543,97 @@ export const updateOrderStatusRider = TryCatch(async (req, res) => {
         payload: order,
       },
       {
-        headers: {
-          "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
-        },
+        headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY },
       },
     );
   };
 
-  if (order.status === "rider_assigned") {
-    order.status = "picked_up";
-    await order.save();
-
-    await Promise.all([
-      emitEvent(`user:${order.userId}`),
-      emitEvent(`restaurant:${order.restaurantId}`),
-    ]);
-
-    return res.json({
-      message: "Order updated successfully",
+  if (order.status !== "picked_up") {
+    // FIX: Missing 'return' added here
+    return res.status(400).json({
+      message: `Cannot deliver order. Current status is ${order.status}`,
     });
-  } else if (order.status === "picked_up") {
-    order.status = "delivered";
-    await order.save();
+  }
 
-    await Promise.all([
-      emitEvent(`user:${order.userId}`),
-      emitEvent(`restaurant:${order.restaurantId}`),
-    ]);
+  try {
+    // console.log("Restaurant serive",orderId);
+    const otpResponse = await axios.post(
+      `${process.env.VERIFICATION_SERVICE}/api/internal/v1/verify`,
+      {
+        otpCode,
+        purpose: "DELIVERY",
+        targetId: orderId,
+      },
+      {
+        headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY },
+      },
+    );
 
-    return res.json({
-      message: "Order updated successfully",
+    if (otpResponse.data.success) {
+      order.status = "delivered";
+      await order.save();
+
+      // FIX: Moved this inside the success block so it actually fires!
+      await Promise.all([
+        emitEvent(`user:${order.userId}`),
+        emitEvent(`restaurant:${order.restaurantId}`),
+      ]);
+
+      return res.status(200).json({
+        success: true,
+        message: "OTP verified. Order marked as delivered!",
+      });
+    }
+  } catch (otpError: any) {
+    const status = otpError.response?.status || 500;
+    const errorMessage =
+      otpError.response?.data?.error || "OTP Verification failed";
+
+    return res.status(status).json({
+      success: false,
+      error: errorMessage,
     });
+  }
+});
+
+export const ResendOtp = TryCatch(async (req:AuthenticatedRequest, res) => { 
+  const { orderId } = req.params;
+
+  if (!orderId) {
+    return res.status(400).json({ message: "Order ID is required" });
+  }
+ 
+  const order = await Order.findById(orderId);
+  if (!order) {
+    return res.status(404).json({ message: "Order not found" });
+  }
+  //! verify late it is TODO
+  // console.log(`rider Id in order : ${order.riderId}, request user id ${req.user?._id}`);
+  // if (order.riderId?.toString() !== req.user?._id?.toString()) {
+  //   return res
+  //     .status(403)
+  //     .json({ message: "You are not authorized to manage this order" });
+  // }
+ 
+  try {
+    const { data } = await axios.post(
+      `${process.env.VERIFICATION_SERVICE}/api/internal/v1/generate`,
+      {
+        purpose: "DELIVERY",
+        targetId: order._id.toString(),
+        targetModel: "Order",
+        recipient: order.userId,
+      },
+      {
+        headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY },
+      },
+    );
+
+    return res.json({ message: "OTP resent successfully" });
+  } catch (error) {
+    console.error("Internal Verification Service Error:", error);
+    return res
+      .status(500)
+      .json({ message: "Failed to communicate with verification service" });
   }
 });

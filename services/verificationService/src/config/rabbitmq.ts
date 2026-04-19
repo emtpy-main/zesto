@@ -9,12 +9,6 @@ export const connectRabbitMQ = async () => {
   await channel.assertQueue(process.env.PAYMENT_QUEUE!, {
     durable: true,
   });
-  await channel.assertQueue(process.env.EMAIL_QUEUE!, {
-    durable: true,
-  });
-  await channel.assertQueue(process.env.OTP_QUEUE!, {
-    durable: true,
-  });
   console.log("Connected to RabbitMq 🐇");
 };
 

@@ -6,6 +6,7 @@ import uploadRoutes from "./routes/cloudinary";
 import paymentRoutes from './routes/payment'
 import { connectRabbitMQ } from "./config/rabbitmq";
 import { startEmailConsumer } from "./config/email.consumer";
+import { startOTPQueueConsumer } from "./config/otpQueue.consumer";
 
 dotenv.config();
 const app = express();
@@ -34,7 +35,8 @@ const bootstrap = async () => {
   try {
     await connectRabbitMQ();
     await startEmailConsumer();
- 
+    await startOTPQueueConsumer();
+    
     app.listen(PORT, () => {
       console.log(`utils service is running on port ${PORT}`);
     });

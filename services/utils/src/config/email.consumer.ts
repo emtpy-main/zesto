@@ -12,7 +12,7 @@ const compiledTemplate = handlebars.compile(source);
 
 export const startEmailConsumer = async () => {
   const channel = await getChannel();
-  console.log("📧 Resend Email Consumer active...");
+  console.log("📧  Email Consumer active...");
 
   channel.prefetch(1);
 

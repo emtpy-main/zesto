@@ -238,7 +238,7 @@ export const fetchMyCurrentOrder = TryCatch(
     try {
       const { data } = await axios.get(
         `${process.env.RESTAURANT_SERVICE}/api/order/current/rider/${rider._id}`,
-        { 
+        {
           headers: {
             "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
           },
@@ -283,15 +283,104 @@ export const updateOrderStatus = TryCatch(
           },
         },
       );
+      console.log("update router: ", data);
 
       return res.json({
         message: "Order status updated successfully",
         data,
       });
     } catch (error: any) {
+      console.log("rider service error: ", error);
       return res.status(500).json({
         message: error?.response?.data?.message || "Internal Server Error",
       });
     }
   },
 );
+export const confirmOrderStatus = TryCatch(
+  async (req: AuthenticatedRequest, res) => {
+    const userId = req.user?._id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Please login" });
+    }
+
+    const rider = await Rider.findOne({ userId });
+    if (!rider) {
+      return res.status(404).json({
+        message: "No rider found",
+      });
+    }
+
+    const { orderId } = req.params;
+    const { otpCode } = req.body;
+    if (!otpCode) {
+      return res.status(404).json({
+        message: "Otp not found",
+      });
+    }
+    console.log("rider service: ", otpCode);
+
+    try {
+      const { data } = await axios.put(
+        `${process.env.RESTAURANT_SERVICE}/api/order/update/status/rider/confirmation`,
+        { orderId, otpCode },
+        {
+          headers: {
+            "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+          },
+        },
+      );
+
+      return res.json({
+        message: "Order status updated successfully",
+        data,
+      });
+    } catch (error: any) {
+      console.log(error);
+      return res.status(500).json({
+        message: error?.response?.data?.message || "Internal Server Error",
+      });
+    }
+  },
+);
+
+export const ResendOtp = TryCatch(async (req: AuthenticatedRequest, res) => {
+  const userId = req.user?._id;
+
+  if (!userId) {
+    return res.status(401).json({ message: "Please login" });
+  }
+
+  const rider = await Rider.findOne({ userId });
+  if (!rider) {
+    return res.status(404).json({
+      message: "No rider found",
+    });
+  }
+
+  const { orderId } = req.params;
+  console.log("Order Id", orderId);
+    try {
+      const { data } = await axios.post(
+        `${process.env.RESTAURANT_SERVICE}/api/order/resend-otp/${orderId}`,
+        {},
+        {
+          headers: {
+            "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+          },
+        },
+      );
+      console.log("Resend Otp", data);
+
+      return res.json({
+        message: "OTP resend successfully",
+        data,
+      });
+    } catch (error: any) {
+      console.log("rider service error: ", error);
+      return res.status(500).json({
+        message: error?.response?.data?.message || "Internal Server Error",
+      });
+    }
+});
