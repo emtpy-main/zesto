@@ -23,5 +23,5 @@ app.use("/api/auth",authRoute);
 
 app.listen(PORT,()=>{
     connectDB();
-    console.log(`Auth service is running on port ${PORT}`);
+    //console.log(`Auth service is running on port ${PORT}`);
 })

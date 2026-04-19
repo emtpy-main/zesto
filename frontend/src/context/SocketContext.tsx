@@ -35,13 +35,13 @@ export const SocketProvider = ({children}:{children:ReactNode})=>{
         })
         socketRef.current = socket; 
         socket.on("connect",()=>{
-            console.log("Socket connected",socket.id);
+            //console.log("Socket connected",socket.id);
         })
         socket.on("disconnect",()=>{
-            console.log("Socket disconnected",socket.id);
+            //console.log("Socket disconnected",socket.id);
         })
         socket.on("connect_error",(error)=>{
-            console.log("Socket error",error.message);
+            //console.log("Socket error",error.message);
         })
 
         return ()=>{

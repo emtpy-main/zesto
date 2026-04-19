@@ -18,7 +18,7 @@ export const sendEmail = async (to: string, subject: string, htmlContent: string
             html: htmlContent,
         });
 
-        console.log(`✅ Gmail: Successfully sent to ${to} (ID: ${info.messageId})`);
+        //console.log(`✅ Gmail: Successfully sent to ${to} (ID: ${info.messageId})`);
         return info;
     } catch (error: any) {
         console.error(`❌ Gmail Failure for ${to}:`, error.message);

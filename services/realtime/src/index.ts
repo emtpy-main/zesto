@@ -17,5 +17,5 @@ const server = http.createServer(app);
 initSocket(server);
 
 server.listen(process.env.PORT,()=>{
-    console.log(`RealTime service is running at port ${process.env.PORT}`)
+    //console.log(`RealTime service is running at port ${process.env.PORT}`)
 })

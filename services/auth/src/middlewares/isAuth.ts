@@ -38,7 +38,7 @@ export const isAuth = async (
         message: "Invalid token",
       });
     }
-    console.log("Request isauth middle : ", req.user);
+    //console.log("Request isauth middle : ", req.user);
     req.user = decodedValue.user;
 
     return next();  

@@ -41,7 +41,7 @@ const Restaurant = () => {
         window.location.reload();
       }
     } catch (error: any) {
-      console.log(error.message);
+      // //console.log(error.message);
     } finally {
       setLoading(false);
     }
@@ -64,7 +64,7 @@ const Restaurant = () => {
       );
       setMenuItems(data);
     } catch (error) {
-      console.log(error);
+      // //console.log(error);
     }
   };
   useEffect(() => {
@@ -204,14 +204,14 @@ const Restaurant = () => {
                 </div>
                 <div className="flex w-full sm:w-auto flex-col gap-3">
                   <a
-                    href="mailto:helpdesk@zesto.com"
+                    href="mailto:zesto.testing@gmail.com"
                     className="flex items-center justify-center gap-2 rounded-lg bg-slate-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-slate-600 transition-colors focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-800"
                   >
                     <FiMail className="h-4 w-4" />
                     Email Support
                   </a>
                   <a
-                    href="tel:+18001234567"
+                    href="tel:+918178891329"
                     className="flex items-center justify-center gap-2 rounded-lg bg-red-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-red-600 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)] focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-slate-800"
                   >
                     <FiPhoneCall className="h-4 w-4" />

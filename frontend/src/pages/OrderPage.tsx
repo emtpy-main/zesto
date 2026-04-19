@@ -21,7 +21,7 @@ const OrderPage = () => {
       });
       setOrder(data);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,7 @@ const OrderPage = () => {
   useEffect(() => {
     if (!socket) return;
     const onRiderLocation = ({ latitude, longitude }: any) => {
-      console.log("Rider location: ", latitude, longitude);
+      //console.log("Rider location: ", latitude, longitude);
       setRiderLoaction([latitude, longitude]);
     };
     socket.on("rider:location", onRiderLocation);

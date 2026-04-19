@@ -18,8 +18,8 @@ export const publishEvent = async (user: IUser, admin?: string[]) => {
         persistent: true,
       },
     );
-    console.log("Email published in email_queue 📥: " , emailPayload);
+    //console.log("Email published in email_queue 📥: " , emailPayload);
   } catch (error) {
-    console.log("Error while publishing email in email_queue: ",error);
+    //console.log("Error while publishing email in email_queue: ",error);
   }
 };

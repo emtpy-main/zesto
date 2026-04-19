@@ -19,7 +19,7 @@ export const GenerateOtp = async (
           "Invalid or missing 'purpose'. Must be DELIVERY, LOGIN, or PASSWORD_RESET.",
       });
     }
-    console.log(`purpose ${purpose}, targetid ${targetId}, targetModel ${targetModel}, recipient ${recipient}`);
+    //console.log(`purpose ${purpose}, targetid ${targetId}, targetModel ${targetModel}, recipient ${recipient}`);
     // Validate 'targetId' and 'targetModel'
     if (!targetId || typeof targetId !== "string" || targetId.trim() === "") {
       return res
@@ -74,7 +74,7 @@ export const GenerateOtp = async (
       recipient,
       expiresAt,
     });
-    console.log("new generate otp",newOtp);
+    //console.log("new generate otp",newOtp);
     //! TODO: Trigger SMS Provider to send 'otpCode' to 'recipient' here
     // user name and details
     const { data } = await axios.get(

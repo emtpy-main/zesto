@@ -59,7 +59,7 @@ const Home = () => {
       );
       setRestaurants(data.restaurants ?? []);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     } finally {
       setLoading(false);
     }

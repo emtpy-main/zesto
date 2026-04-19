@@ -5,21 +5,21 @@ import { getChannel } from "./connectRabbitmq.js"
 export const startOrderReadyConsumer = async()=>{
     const channel = getChannel();
 
-    console.log("Staring to consume from :",process.env.ORDER_READY_QUEUE);
+    //console.log("Staring to consume from :",process.env.ORDER_READY_QUEUE);
     channel.consume(process.env.ORDER_READY_QUEUE!,async(msg)=>{
         if(!msg) return;
         try {
-            console.log("Recied message ",msg.content.toString());
+            //console.log("Recied message ",msg.content.toString());
             
             const event = JSON.parse(msg.content.toString());
-            console.log("Event type: ",event.type);
+            //console.log("Event type: ",event.type);
             if(event.type !== "ORDER_READY_FOR_RIDER"){
-                console.log("Skipping non-order-ready-for-ready event")
+                //console.log("Skipping non-order-ready-for-ready event")
                 channel.ack(msg);
                 return;
             }
             const{orderId,restaurantId,location}=event.data;
-            console.log("Searching for rider near: ",location);
+            //console.log("Searching for rider near: ",location);
             const riders = await Rider.find({
                 isVerified:true,
                 location:{
@@ -29,15 +29,15 @@ export const startOrderReadyConsumer = async()=>{
                     }
                 }
             })
-            console.log(`Found ${riders.length} nearby riders`);
+            //console.log(`Found ${riders.length} nearby riders`);
             if(riders.length === 0){
-                console.log("No riders available nearby");
+                //console.log("No riders available nearby");
                 channel.ack(msg);
                 return;
             }
 
             for(const rider of riders){
-                console.log(`Notifying rider userId: ${rider.userId} `);
+                //console.log(`Notifying rider userId: ${rider.userId} `);
                 try {
                     await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
                         event:"order:available",
@@ -48,15 +48,15 @@ export const startOrderReadyConsumer = async()=>{
                             "x-internal-key":process.env.INTERNAL_SERVICE_KEY,
                         }
                     })
-                    console.log(`Notified rider ${rider.userId} successfully`)
+                    //console.log(`Notified rider ${rider.userId} successfully`)
                 } catch (error) {
-                    console.log(`Failed to notify rider ${rider.userId}`)
+                    //console.log(`Failed to notify rider ${rider.userId}`)
                 }
                 channel.ack(msg);
-                console.log("message acknowledged")
+                //console.log("message acknowledged")
             }
         } catch (error) {
-            console.log("Order Ready consumer error: ",error);
+            //console.log("Order Ready consumer error: ",error);
         }
     })
 }

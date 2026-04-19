@@ -21,9 +21,9 @@ app.use('/api/rider',riderRoutes);
 connectDB()
   .then(() => {
     app.listen(process.env.PORT, () => {
-      console.log(`Rider service is running on port ${process.env.PORT}`);
+      //console.log(`Rider service is running on port ${process.env.PORT}`);
     });
   })
   .catch(() => {
-    console.log("Error while connecting to db 📊");
+    //console.log("Error while connecting to db 📊");
   });

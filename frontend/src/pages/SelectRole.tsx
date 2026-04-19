@@ -68,9 +68,17 @@ const SelectRole = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 font-sans">
-      <div className="w-full max-w-md bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 space-y-8">
-         
+    <div className="relative flex min-h-screen items-center justify-center bg-gray-50/50 px-4 py-12 font-sans overflow-hidden">
+      
+      {/* Background Blobs */}
+      <div className="absolute top-10 left-10 w-72 h-72 bg-[#e23744] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-10 right-10 w-80 h-80 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+      <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+
+      {/* Main Glassmorphic Card */}
+      <div className="relative z-10 w-full max-w-md bg-white/80 backdrop-blur-2xl p-8 rounded-[2rem] shadow-[0_8px_40px_rgb(0,0,0,0.08)] border border-white space-y-8">
+          
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-black text-gray-900 tracking-tight">
             Choose your role
@@ -81,7 +89,7 @@ const SelectRole = () => {
         </div>
 
         {/* Role Selection Options */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {ROLE_OPTIONS.map((option) => {
             const isSelected = role === option.id;
             const Icon = option.icon;
@@ -90,18 +98,18 @@ const SelectRole = () => {
               <button
                 key={option.id}
                 onClick={() => setRole(option.id)}
-                className={`group relative w-full flex items-center gap-4 text-left p-4 rounded-2xl border-2 transition-all duration-200 ease-in-out outline-none focus:ring-4 focus:ring-[#e23744]/10 ${
+                className={`group relative w-full flex items-center gap-4 text-left p-4 rounded-2xl border-2 transition-all duration-300 ease-in-out outline-none focus:ring-4 focus:ring-[#e23744]/15 ${
                   isSelected
-                    ? "border-[#e23744] bg-[#e23744]/[0.03] shadow-sm"
-                    : "border-gray-100 hover:border-gray-200 hover:bg-gray-50/50"
+                    ? "border-[#e23744] bg-white shadow-md scale-[1.02]"
+                    : "border-transparent bg-white/60 hover:bg-white hover:border-gray-200 hover:shadow-sm"
                 }`}
               >
                 {/* Icon Container */}
                 <div
-                  className={`flex-shrink-0 p-3 rounded-xl transition-colors ${
+                  className={`flex-shrink-0 p-3.5 rounded-xl transition-all duration-300 ${
                     isSelected
-                      ? "bg-[#e23744] text-white"
-                      : "bg-gray-100 text-gray-500 group-hover:bg-gray-200 group-hover:text-gray-700"
+                      ? "bg-[#e23744] text-white shadow-lg shadow-[#e23744]/30"
+                      : "bg-gray-100/80 text-gray-500 group-hover:bg-gray-100 group-hover:text-gray-700"
                   }`}
                 >
                   <Icon className="text-2xl" />
@@ -111,20 +119,20 @@ const SelectRole = () => {
                 <div className="flex-1">
                   <h3
                     className={`text-base font-bold transition-colors ${
-                      isSelected ? "text-gray-900" : "text-gray-700"
+                      isSelected ? "text-gray-900" : "text-gray-700 group-hover:text-gray-900"
                     }`}
                   >
                     {option.title}
                   </h3>
-                  <p className="text-xs font-medium text-gray-500 mt-0.5 pr-4 leading-relaxed">
+                  <p className="text-xs font-medium text-gray-500 mt-1 pr-6 leading-relaxed">
                     {option.description}
                   </p>
                 </div>
 
                 {/* Selected Indicator */}
                 <div
-                  className={`absolute right-4 transition-all duration-200 ${
-                    isSelected ? "opacity-100 scale-100" : "opacity-0 scale-75"
+                  className={`absolute right-4 transition-all duration-300 ${
+                    isSelected ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
                   }`}
                 >
                   <BiCheckCircle className="text-2xl text-[#e23744]" />
@@ -135,14 +143,14 @@ const SelectRole = () => {
         </div>
 
         {/* Action Button */}
-        <div className="pt-2">
+        <div className="pt-4">
           <button
             disabled={!role || isLoading}
             onClick={addRole}
-            className={`w-full relative flex items-center justify-center rounded-xl px-4 py-4 text-base font-bold transition-all duration-200 active:scale-[0.98] ${
+            className={`w-full relative flex items-center justify-center rounded-2xl px-4 py-4 text-base font-bold transition-all duration-300 active:scale-[0.98] ${
               role && !isLoading
-                ? "bg-[#e23744] hover:bg-[#c9313d] text-white shadow-lg shadow-[#e23744]/25"
-                : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                ? "bg-[#e23744] hover:bg-[#c9313d] text-white shadow-xl shadow-[#e23744]/25 hover:shadow-[#e23744]/40"
+                : "bg-gray-200/60 text-gray-400 cursor-not-allowed"
             }`}
           >
             {isLoading ? (

@@ -38,7 +38,7 @@ const bootstrap = async () => {
     await startOTPQueueConsumer();
     
     app.listen(PORT, () => {
-      console.log(`utils service is running on port ${PORT}`);
+      //console.log(`utils service is running on port ${PORT}`);
     });
   } catch (error) {
     console.error("Failed to start the application:", error);

@@ -41,7 +41,7 @@ export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
     lat2: number,
     lon2: number,
   ): number => {
-    console.log(
+    //console.log(
       `distance of order at latitude and longitude ${lat1} ${typeof lat1} : ${lon1} ${typeof lon1} :${lat2} ${typeof lat2} :${lon2} ${typeof lon2}`,
     );
     if (isNaN(lat1) || isNaN(lon1) || isNaN(lat2) || isNaN(lon2)) {
@@ -122,7 +122,7 @@ export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
     });
   }
 
-  console.log(`${restaurant.name} at distance ${distance}`);
+  //console.log(`${restaurant.name} at distance ${distance}`);
 
   let subTotal = 0;
   const orderItems = cartItems.map((cart) => {
@@ -312,7 +312,7 @@ export const updateOrderStatus = TryCatch(
 
     //==========  now assign riders =====================
     if (status === "ready_for_rider") {
-      console.log(
+      //console.log(
         "Publishing order ready for rider in restaurant/controller/order.ts fiel",
         order._id,
       );
@@ -321,7 +321,7 @@ export const updateOrderStatus = TryCatch(
         restaurantId: restaurant._id.toString(),
         location: restaurant.autoLocation,
       });
-      console.log("Event published successfully");
+      //console.log("Event published successfully");
     }
 
     res.json({
@@ -498,7 +498,7 @@ export const updateOrderStatusRider = TryCatch(async (req, res) => {
   }
 
   //! otp generate for this order
-  // console.log("update order status: ", order._id.toString());
+  // //console.log("update order status: ", order._id.toString());
   const { data } = await axios.post(
     `${process.env.VERIFICATION_SERVICE}/api/internal/v1/generate`,
     {
@@ -520,7 +520,7 @@ export const updateOrderStatusRider = TryCatch(async (req, res) => {
     emitEvent(`restaurant:${order.restaurantId}`),
   ]);
 
-  console.log("Order update status: ", data);
+  //console.log("Order update status: ", data);
   return res.json({ message: "Order updated successfully" });
 });
 
@@ -556,7 +556,7 @@ export const confirmDelivery = TryCatch(async (req, res) => {
   }
 
   try {
-    // console.log("Restaurant serive",orderId);
+    // //console.log("Restaurant serive",orderId);
     const otpResponse = await axios.post(
       `${process.env.VERIFICATION_SERVICE}/api/internal/v1/verify`,
       {
@@ -608,7 +608,7 @@ export const ResendOtp = TryCatch(async (req:AuthenticatedRequest, res) => {
     return res.status(404).json({ message: "Order not found" });
   }
   //! verify late it is TODO
-  // console.log(`rider Id in order : ${order.riderId}, request user id ${req.user?._id}`);
+  // //console.log(`rider Id in order : ${order.riderId}, request user id ${req.user?._id}`);
   // if (order.riderId?.toString() !== req.user?._id?.toString()) {
   //   return res
   //     .status(403)

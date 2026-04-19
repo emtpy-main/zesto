@@ -283,14 +283,14 @@ export const updateOrderStatus = TryCatch(
           },
         },
       );
-      console.log("update router: ", data);
+      //console.log("update router: ", data);
 
       return res.json({
         message: "Order status updated successfully",
         data,
       });
     } catch (error: any) {
-      console.log("rider service error: ", error);
+      //console.log("rider service error: ", error);
       return res.status(500).json({
         message: error?.response?.data?.message || "Internal Server Error",
       });
@@ -319,7 +319,7 @@ export const confirmOrderStatus = TryCatch(
         message: "Otp not found",
       });
     }
-    console.log("rider service: ", otpCode);
+    //console.log("rider service: ", otpCode);
 
     try {
       const { data } = await axios.put(
@@ -337,7 +337,7 @@ export const confirmOrderStatus = TryCatch(
         data,
       });
     } catch (error: any) {
-      console.log(error);
+      //console.log(error);
       return res.status(500).json({
         message: error?.response?.data?.message || "Internal Server Error",
       });
@@ -360,7 +360,7 @@ export const ResendOtp = TryCatch(async (req: AuthenticatedRequest, res) => {
   }
 
   const { orderId } = req.params;
-  console.log("Order Id", orderId);
+  //console.log("Order Id", orderId);
     try {
       const { data } = await axios.post(
         `${process.env.RESTAURANT_SERVICE}/api/order/resend-otp/${orderId}`,
@@ -371,14 +371,14 @@ export const ResendOtp = TryCatch(async (req: AuthenticatedRequest, res) => {
           },
         },
       );
-      console.log("Resend Otp", data);
+      //console.log("Resend Otp", data);
 
       return res.json({
         message: "OTP resend successfully",
         data,
       });
     } catch (error: any) {
-      console.log("rider service error: ", error);
+      //console.log("rider service error: ", error);
       return res.status(500).json({
         message: error?.response?.data?.message || "Internal Server Error",
       });

@@ -36,10 +36,10 @@ const RestaurantOrders = ({ restaurantId }: { restaurantId: string }) => {
           audioRef.current!.pause();
           audioRef.current!.currentTime = 0;
           setAudioUnlocked(true);
-          console.log("Audio unlocked");
+          //console.log("Audio unlocked");
         })
         .catch((err) => {
-          console.log("Failed to unlock audio: ", err);
+          //console.log("Failed to unlock audio: ", err);
         });
     }
   };
@@ -56,7 +56,7 @@ const RestaurantOrders = ({ restaurantId }: { restaurantId: string }) => {
       );
       setOrders(data.orders || []);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     } finally {
       setLoading(false);
     }
@@ -69,11 +69,11 @@ const RestaurantOrders = ({ restaurantId }: { restaurantId: string }) => {
   useEffect(() => {
     if (!socket) return;
     const onNewOrder = () => {
-      console.log("New order received socket");
+      //console.log("New order received socket");
       if (audioUnlocked && audioRef.current) {
         audioRef.current.currentTime = 0;
         audioRef.current.play().catch((err) => {
-          console.log("Audio play failed: ", err);
+          //console.log("Audio play failed: ", err);
         });
       }
       fetchOrders();

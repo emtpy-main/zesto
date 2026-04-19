@@ -26,7 +26,7 @@ const RestaurantPage = () => {
       );
       setRestaurant(data?.restaurant || null);
     } catch (error) {
-      console.log(error);
+     // //console.log(error);
     } finally {
       setLoading(false);
     }
@@ -44,7 +44,7 @@ const RestaurantPage = () => {
       );
       setMenuitems(data);
     } catch (error) {
-      console.log(error);
+     // //console.log(error);
     }
   };
   useEffect(() => {

@@ -36,7 +36,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
       toast.success(data.message);
       setIsOpen(data.restaurant.isOpen);
     } catch (error: any) {
-      console.log(error);
+      //console.log(error);
       toast.error(error.response.data.message);
     }
   };
@@ -78,7 +78,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: Props) => {
       onUpdate(data.restaurant);
       setEditMode(false);
     } catch (error: any) {
-      console.log(error);
+      //console.log(error);
       toast.error("Failed to update");
     } finally {
       setLoading(false);

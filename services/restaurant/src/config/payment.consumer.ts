@@ -42,7 +42,7 @@ export const startPaymentConsumer = async () => {
         return;
       }
 
-      console.log("✅Order placed", order._id);
+      //console.log("✅Order placed", order._id);
       
       // socket word
       await axios.post(

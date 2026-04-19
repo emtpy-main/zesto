@@ -47,10 +47,10 @@ export const googleLogin = TryCatch(async (req, res) => {
       });
     }
 
-    // console.log("Received code:", code);
+    // //console.log("Received code:", code);
 
     const googleRes = await oauth2client.getToken(code);
-    // console.log("Google tokens:", googleRes.tokens);
+    // //console.log("Google tokens:", googleRes.tokens);
 
     oauth2client.setCredentials(googleRes.tokens);
 
@@ -58,7 +58,7 @@ export const googleLogin = TryCatch(async (req, res) => {
       `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
     );
 
-    // console.log("User data:", userRes.data);
+    // //console.log("User data:", userRes.data);
 
     const { email, name, picture } = userRes.data;
 

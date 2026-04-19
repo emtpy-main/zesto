@@ -15,7 +15,7 @@ export const connectRabbitMQ = async () => {
   await channel.assertQueue(process.env.OTP_QUEUE!, {
     durable: true,
   });
-  console.log("Connected to RabbitMq 🐇");
+  //console.log("Connected to RabbitMq 🐇");
 };
 
 export const getChannel = () => channel;

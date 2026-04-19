@@ -5,13 +5,13 @@ import handlebars from "handlebars";
 import { sendEmail } from "../service/email.service";
 
 const templatePath = path.join(process.cwd(), 'src', 'templates', 'delivery-otp.hbs');
-console.log("root" + process.cwd())
+//console.log("root" + process.cwd())
 const source = fs.readFileSync(templatePath, "utf-8");
 const compiledTemplate = handlebars.compile(source);
 
 export const startOTPQueueConsumer = async()=>{
     const channel = await getChannel();
-    console.log("🔢 OTP Queue consumer active...")
+    //console.log("🔢 OTP Queue consumer active...")
 
     channel.prefetch(1);
 
