@@ -34,7 +34,6 @@ const App = () => {
     return (
       <>
         <Restaurant />
-        <Footer />
       </>
     );
   }
@@ -42,7 +41,6 @@ const App = () => {
     return (
       <>
         <RiderDashboard />
-        <Footer />
       </>
     );
   }
@@ -50,7 +48,6 @@ const App = () => {
     return (
       <>
         <AdminDashboard />
-        <Footer />
       </>
     );
   }
@@ -78,7 +75,6 @@ const App = () => {
             <Route path="/account" element={<Account />} />
           </Route>
         </Routes>
-        <Footer/>
         <Toaster />
       </BrowserRouter>
     </>

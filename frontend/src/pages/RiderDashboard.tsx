@@ -21,6 +21,7 @@ import RiderCurrentOrder from "../components/RiderCurrentOrder";
 import RiderOrderMap from "../components/RiderOrderMap";
 import Tooltip from "../ui/Tooltip";
 import { FiLogOut } from "react-icons/fi";
+import Footer from "../components/Footer";
 
 export interface IRider {
   _id: string;
@@ -480,6 +481,7 @@ const RiderDashboard = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

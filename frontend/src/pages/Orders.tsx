@@ -5,6 +5,7 @@ import { useSocket } from "../context/SocketContext";
 import { restaurantService } from "../main";
 import axios from "axios";
 import { BiShoppingBag, BiChevronRight, BiTime } from "react-icons/bi";
+import Footer from "../components/Footer";
 
 const ACTIVE_STATUS = [
   "placed",
@@ -228,6 +229,7 @@ const OrderRow = ({
           <BiChevronRight className="text-lg ml-0.5 transition-transform group-hover:translate-x-1" />
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

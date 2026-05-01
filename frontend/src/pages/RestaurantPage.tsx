@@ -7,6 +7,7 @@ import RestaurantProfile from "../components/RestaurantProfile";
 import MenuItems from "../components/MenuItems";
 import { FiAlertCircle } from "react-icons/fi";
 import { VscLoading } from "react-icons/vsc";
+import Footer from "../components/Footer";
 
 const RestaurantPage = () => {
   const { id } = useParams();
@@ -104,6 +105,7 @@ const RestaurantPage = () => {
           onItemDeleted={() => {}}
         />
       </div>
+      <Footer/>
     </div>
   );
 };

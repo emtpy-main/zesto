@@ -6,6 +6,7 @@ import axios from "axios";
 import { restaurantService } from "../main";
 import RestaurantCard from "../components/RestaurantCard";
 import { FiMap, FiMapPin } from "react-icons/fi";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const { location } = useAppData();
@@ -140,6 +141,7 @@ const Home = () => {
           </p>
         </div>
       )}
+      <Footer/>
     </div>
   );
 };

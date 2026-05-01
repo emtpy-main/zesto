@@ -13,6 +13,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { LuLocateFixed } from "react-icons/lu";
 import { BiLoader, BiPlus, BiTrash, BiMapPin } from "react-icons/bi";
+import Footer from "../components/Footer";
 
 // --- 🔧 Fix Leaflet Marker Icon Issue ---
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -330,6 +331,7 @@ const AddAddressPage = () => {
 
     </div>
   </div>
+  <Footer/>
 </div>
   );
 };

@@ -6,6 +6,7 @@ import axios from "axios";
 import { restaurantService } from "../main";
 import UserOrderMap from "../components/UserOrderMap";
 import { BiCreditCard, BiErrorCircle, BiMapPin, BiPackage, BiReceipt, BiTimeFive } from "react-icons/bi";
+import Footer from "../components/Footer";
 
 const OrderPage = () => {
   const { id } = useParams();
@@ -272,6 +273,7 @@ const OrderPage = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { BiCreditCard, BiLoader } from "react-icons/bi";
+import Footer from "../components/Footer";
 
 const Checkout = () => {
   const { cart, subTotal, quantity } = useAppData();
@@ -240,6 +241,7 @@ const Checkout = () => {
           Pay with Razorpay
         </button>
       </div>
+      <Footer/>
     </div>
   );
 };

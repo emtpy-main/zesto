@@ -8,6 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FiMail, FiArrowLeft } from "react-icons/fi";
 import { useAppData } from "../context/AppContext";
 import AuthForm from "../components/manualLoginAndRegister";
+import Footer from "../components/Footer";
 
 const Login = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -132,6 +133,7 @@ const Login = () => {
         </p>
 
       </div>
+      <Footer/>
     </div>
   );
 };

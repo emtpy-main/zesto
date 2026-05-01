@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { BiCheckCircle } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import { FiShoppingBag } from "react-icons/fi";
+import Footer from "../components/Footer";
 
 const PaymentSuccess = () => {
   const { paymentId } = useParams<{ paymentId: string }>();
@@ -61,6 +62,7 @@ const PaymentSuccess = () => {
         </div>
 
       </div>
+      <Footer/>
     </div>
   );
 };

@@ -19,6 +19,7 @@ import {
 } from "react-icons/fi";
 import { useAppData } from "../context/AppContext";
 import Tooltip from "../ui/Tooltip";
+import Footer from "../components/Footer";
 const Restaurant = () => {
   const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
   const [loading, setLoading] = useState(true);
@@ -302,6 +303,7 @@ const Restaurant = () => {
           </>
         )}
       </main>
+      <Footer/>
     </div>
   );
 };

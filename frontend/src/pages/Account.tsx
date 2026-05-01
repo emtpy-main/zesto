@@ -7,6 +7,7 @@ import {
   BiPackage, 
   BiChevronRight 
 } from 'react-icons/bi';
+import Footer from '../components/Footer';
 
 const Account = () => {
   const { user, setUser, setIsAuth } = useAppData();
@@ -105,6 +106,7 @@ const Account = () => {
         </div>
 
       </div>
+      <Footer/>
     </div>
   );
 };

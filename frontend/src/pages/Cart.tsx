@@ -9,6 +9,7 @@ import { VscLoading } from "react-icons/vsc";
 import { BiMinus, BiPlus } from "react-icons/bi";
 import { FaTrash } from "react-icons/fa";
 import { FiInfo, FiMapPin } from "react-icons/fi";
+import Footer from "../components/Footer";
 
 const Cart = () => {
   const { cart, subTotal, quantity, fetchCart } = useAppData();
@@ -277,6 +278,7 @@ const Cart = () => {
           </button>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };
