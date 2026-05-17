@@ -95,42 +95,42 @@ Create a `.env` file in each respective service directory and populate them with
 #### Admin Service (`services/admin/.env`)
 ```env
 PORT=5006
-MONGO_URI=xxxxx
-JWT_SEC=kdiankrkcjckiekdjke
+MONGO_URI=<your-mongodb-uri>
+JWT_SEC=<your-jwt-secret>
 DBNAME=Zesto
 ```
 
 #### Auth Service (`services/auth/.env`)
 ```env
 PORT=5000
-MONGO_URI=xxxxx
-JWT_SEC=kdiankrkcjckiekdjke
-GOOGLE_CLIENT_ID=xxxxxxxxxxxxxxxxxx
-GOOGLE_CLIENT_SECRET=xxxxx
+MONGO_URI=<your-mongodb-uri>
+JWT_SEC=<your-jwt-secret>
+GOOGLE_CLIENT_ID=<your-google-client-id>
+GOOGLE_CLIENT_SECRET=<your-google-client-secret>
 GOOGLE_REDIRECT_URI=http://localhost:5173/login
 UTILS_SERVICE=http://localhost:5002
 EMAIL_QUEUE=email_queue
 RABBITMQ_URL=amqp://admin:admin123@localhost:5672
-INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+INTERNAL_SERVICE_KEY=<your-internal-service-key>
 FRONTEND_URL=https://zesto-frontend.vercel.app
 ```
 
 #### Realtime Service (`services/realtime/.env`)
 ```env
 PORT=5004
-JWT_SEC=kdiankrkcjckiekdjke
-INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+JWT_SEC=<your-jwt-secret>
+INTERNAL_SERVICE_KEY=<your-internal-service-key>
 ```
 
 #### Restaurant Service (`services/restaurant/.env`)
 ```env
 PORT=5001
-MONGO_URI=xxxxxx
-JWT_SEC=kdiankrkcjckiekdjke
+MONGO_URI=<your-mongodb-uri>
+JWT_SEC=<your-jwt-secret>
 UTILS_SERVICE=http://localhost:5002
 REALTIME_SERVICE=http://localhost:5004
 VERIFICATION_SERVICE=http://localhost:5007
-INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+INTERNAL_SERVICE_KEY=<your-internal-service-key>
 RABBITMQ_URL=amqp://admin:admin123@localhost:5672
 PAYMENT_QUEUE=payment_event
 RIDER_QUEUE=rider_queue
@@ -140,12 +140,12 @@ ORDER_READY_QUEUE=order_ready_queue
 #### Rider Service (`services/rider/.env`)
 ```env
 PORT=5005
-MONGO_URI=xxxxxx
-JWT_SEC=kdiankrkcjckiekdjke
+MONGO_URI=<your-mongodb-uri>
+JWT_SEC=<your-jwt-secret>
 UTILS_SERVICE=http://localhost:5002
 REALTIME_SERVICE=http://localhost:5004
 RESTAURANT_SERVICE=http://localhost:5001
-INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+INTERNAL_SERVICE_KEY=<your-internal-service-key>
 RABBITMQ_URL=amqp://admin:admin123@localhost:5672
 RIDER_QUEUE=rider_queue
 ORDER_READY_QUEUE=order_ready_queue
@@ -155,26 +155,26 @@ FRONTEND_URL=http://localhost:5173
 #### Utils Service (`services/utils/.env`)
 ```env
 PORT=5002
-CLOUD_API_KEY=xxxx
-CLOUD_NAME=xxx
-CLOUD_SECRET_KEY=xxxxxx
-INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
-TEST_RAZORPAY_API_KEY=rzp_test_xxxxxx
-TEST_RAZORPAY_KEY_SECRET=xxxxxxxx
+CLOUD_API_KEY=<your-cloudinary-api-key>
+CLOUD_NAME=<your-cloudinary-cloud-name>
+CLOUD_SECRET_KEY=<your-cloudinary-secret-key>
+INTERNAL_SERVICE_KEY=<your-internal-service-key>
+TEST_RAZORPAY_API_KEY=<your-razorpay-api-key>
+TEST_RAZORPAY_KEY_SECRET=<your-razorpay-key-secret>
 RABBITMQ_URL=amqp://admin:admin123@localhost:5672
 PAYMENT_QUEUE=payment_event
 EMAIL_QUEUE=email_queue
 OTP_QUEUE=otp_queue
 RESTAURANT_SERVICE=http://localhost:5001
-GMAIL_USER=xxxxxxxxxx
-GMAIL_APP_PASSWORD=xxxxxxxxxxxx
+GMAIL_USER=<your-gmail-username>
+GMAIL_APP_PASSWORD=<your-gmail-app-password>
 ```
 
 #### Verification Service (`services/verificationService/.env`)
 ```env
 PORT=5007
-MONGO_URI=xxxxxx
-INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+MONGO_URI=<your-mongodb-uri>
+INTERNAL_SERVICE_KEY=<your-internal-service-key>
 RABBITMQ_URL=amqp://admin:admin123@localhost:5672
 OTP_QUEUE=otp_queue
 AUTH_SERVICE=http://localhost:5000
@@ -183,7 +183,7 @@ MYDOMAIN=http://localhost:5173
 
 #### Frontend (`frontend/.env`)
 ```env
-VITE_INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+VITE_INTERNAL_SERVICE_KEY=<your-internal-service-key>
 VITE_REDIRECT_URL=http://localhost:5173/login
 ```
 
