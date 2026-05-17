@@ -58,28 +58,6 @@ RabbitMQ serves as the primary message broker to decouple heavy and asynchronous
 6. **Internal Notification:** An internal API call, secured with a header-based internal key, notifies the Realtime Service.
 7. **WebSocket Push:** The Realtime Service emits a WebSocket payload to update the Restaurant Dashboard with the new order.
 
-## Installation / Getting Started
-
-### 1. Setup RabbitMQ
-
-First, install and run the RabbitMQ container using Docker:
-
-```bash
-docker run -d --hostname rabbitmq-host --name rabbitmq-container -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin123 -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-```
-
-### 2. Start Services
-
-Then, move into each microservice directory (and the frontend directory), install the dependencies, and start the development server:
-
-```bash
-# Inside each service/frontend folder:
-npm install
-npm run dev
-```
-
-Once all services are running, you're all set!
-
 ## Screenshots
 
 ### User Interface
@@ -99,3 +77,125 @@ Once all services are running, you're all set!
 
 ### Cart Page
 ![Cart Page](./screenshots/cart-page.png)
+
+## Installation / Getting Started
+
+### 1. Setup RabbitMQ
+
+First, install and run the RabbitMQ container using Docker:
+
+```bash
+docker run -d --hostname rabbitmq-host --name rabbitmq-container -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin123 -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+```
+
+### 2. Environment Variables Configuration
+
+Create a `.env` file in each respective service directory and populate them with the following configurations:
+
+#### Admin Service (`services/admin/.env`)
+```env
+PORT=5006
+MONGO_URI=xxxxx
+JWT_SEC=kdiankrkcjckiekdjke
+DBNAME=Zesto
+```
+
+#### Auth Service (`services/auth/.env`)
+```env
+PORT=5000
+MONGO_URI=xxxxx
+JWT_SEC=kdiankrkcjckiekdjke
+GOOGLE_CLIENT_ID=xxxxxxxxxxxxxxxxxx
+GOOGLE_CLIENT_SECRET=xxxxx
+GOOGLE_REDIRECT_URI=http://localhost:5173/login
+UTILS_SERVICE=http://localhost:5002
+EMAIL_QUEUE=email_queue
+RABBITMQ_URL=amqp://admin:admin123@localhost:5672
+INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+FRONTEND_URL=https://zesto-frontend.vercel.app
+```
+
+#### Realtime Service (`services/realtime/.env`)
+```env
+PORT=5004
+JWT_SEC=kdiankrkcjckiekdjke
+INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+```
+
+#### Restaurant Service (`services/restaurant/.env`)
+```env
+PORT=5001
+MONGO_URI=xxxxxx
+JWT_SEC=kdiankrkcjckiekdjke
+UTILS_SERVICE=http://localhost:5002
+REALTIME_SERVICE=http://localhost:5004
+VERIFICATION_SERVICE=http://localhost:5007
+INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+RABBITMQ_URL=amqp://admin:admin123@localhost:5672
+PAYMENT_QUEUE=payment_event
+RIDER_QUEUE=rider_queue
+ORDER_READY_QUEUE=order_ready_queue
+```
+
+#### Rider Service (`services/rider/.env`)
+```env
+PORT=5005
+MONGO_URI=xxxxxx
+JWT_SEC=kdiankrkcjckiekdjke
+UTILS_SERVICE=http://localhost:5002
+REALTIME_SERVICE=http://localhost:5004
+RESTAURANT_SERVICE=http://localhost:5001
+INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+RABBITMQ_URL=amqp://admin:admin123@localhost:5672
+RIDER_QUEUE=rider_queue
+ORDER_READY_QUEUE=order_ready_queue
+FRONTEND_URL=http://localhost:5173
+```
+
+#### Utils Service (`services/utils/.env`)
+```env
+PORT=5002
+CLOUD_API_KEY=xxxx
+CLOUD_NAME=xxx
+CLOUD_SECRET_KEY=xxxxxx
+INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+TEST_RAZORPAY_API_KEY=rzp_test_xxxxxx
+TEST_RAZORPAY_KEY_SECRET=xxxxxxxx
+RABBITMQ_URL=amqp://admin:admin123@localhost:5672
+PAYMENT_QUEUE=payment_event
+EMAIL_QUEUE=email_queue
+OTP_QUEUE=otp_queue
+RESTAURANT_SERVICE=http://localhost:5001
+GMAIL_USER=xxxxxxxxxx
+GMAIL_APP_PASSWORD=xxxxxxxxxxxx
+```
+
+#### Verification Service (`services/verificationService/.env`)
+```env
+PORT=5007
+MONGO_URI=xxxxxx
+INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+RABBITMQ_URL=amqp://admin:admin123@localhost:5672
+OTP_QUEUE=otp_queue
+AUTH_SERVICE=http://localhost:5000
+MYDOMAIN=http://localhost:5173
+```
+
+#### Frontend (`frontend/.env`)
+```env
+VITE_INTERNAL_SERVICE_KEY=kdk38kd=jkkej9393039jkjkjinrian202-2=20mjjn\/kdjj
+VITE_REDIRECT_URL=http://localhost:5173/login
+```
+
+### 3. Start Services
+
+Then, move into each microservice directory (and the frontend directory), install the dependencies, and start the development server:
+
+```bash
+# Inside each service/frontend folder:
+npm install
+npm run dev
+```
+
+Once all services are running, you're all set!
+
