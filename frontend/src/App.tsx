@@ -17,8 +17,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import Orders from "./pages/Orders";
 import OrderPage from "./pages/OrderPage";
 import RiderDashboard from "./pages/RiderDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import Footer from "./components/Footer";
+import AdminDashboard from "./pages/AdminDashboard"; 
 
 const App = () => {
   const { user, loading } = useAppData();

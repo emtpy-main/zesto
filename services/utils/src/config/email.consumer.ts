@@ -6,8 +6,9 @@ import { sendEmail } from "../service/email.service";
  
 const templatePath1 = path.join(process.cwd(), "src", "templates", "welcome.hbs");
 const templatePath2 = path.join(process.cwd(), "src", "templates", "verify-user.hbs");
-
-//console.log("root: " + process.cwd());
+// const templatePath1 = path.join(__dirname, '../templates/welcome.hbs');
+// const templatePath2 = path.join(__dirname, '../templates/verify-user.hbs');
+console.log("root: " + process.cwd());
 
 const source1 = fs.readFileSync(templatePath1, "utf-8");
 const compiledTemplate1 = handlebars.compile(source1);
@@ -17,7 +18,7 @@ const compiledTemplate2 = handlebars.compile(source2);
 
 export const startEmailConsumer = async () => {
   const channel = await getChannel();
-  //console.log("📧  Email Consumer active...");
+  console.log("📧  Email Consumer active...");
 
   channel.prefetch(1);
 
@@ -29,7 +30,7 @@ export const startEmailConsumer = async () => {
       const userRole = payload.data.role ? payload.data.role : "customer";
       
       const { adminEmails, createdAt, name, email } = payload.data;
-       //console.log(`email consumer: `,adminEmails,email,name,createdAt,userRole);
+       console.log(`email consumer: `,adminEmails,email,name,createdAt,userRole);
       // ----------------------------------------------------
       // 1. Send "Welcome" Email to the newly registered User
       // ----------------------------------------------------
@@ -68,7 +69,7 @@ export const startEmailConsumer = async () => {
         const adminHtml = compiledTemplate2(adminTemplateData);
         adminEmails.forEach(async (adminEmail:string)=>{
            await sendEmail(adminEmail, adminSubject, adminHtml);
-            //console.log(`email consumer: `,adminEmail,email,name,createdAt,userRole);
+            console.log(`email consumer: `,adminEmail,email,name,createdAt,userRole);
         })
        
       }

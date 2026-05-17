@@ -7,5 +7,5 @@ const app = express();
 app.use(cors());
 app.use('/api/v1',adminRoutes);
 app.listen(process.env.PORT,()=>{
-    //console.log(`Admin service is running at port ${process.env.PORT}`)
+    console.log(`Admin service is running at port ${process.env.PORT}`)
 })

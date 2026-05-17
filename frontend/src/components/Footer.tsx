@@ -11,7 +11,7 @@ const Footer = () => {
             © 2026 Zesto. All rights reserved.
           </p>
           <p className="mt-1">
-            Built by{" "}
+            Crafted and Developed by{" "}
             <a
               href="https://github.com/emtpy-main"
               target="_blank"

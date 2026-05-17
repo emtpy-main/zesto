@@ -42,5 +42,5 @@ export const publishOtpMessage = async (
     persistent: true, 
   });
 
-  //console.log(`[x] Published ${template} to ${process.env.OTP_QUEUE} for ${recipient}`);
+  console.log(`[x] Published ${template} to ${process.env.OTP_QUEUE} for ${recipient}`);
 };

@@ -31,18 +31,24 @@ cloudinary.v2.config({
 app.use("/api",uploadRoutes);
 app.use("/api/payment",paymentRoutes)
 
-const bootstrap = async () => {
+const startServer = () => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+};
+
+const initServices = async () => {
   try {
     await connectRabbitMQ();
     await startEmailConsumer();
     await startOTPQueueConsumer();
-    
-    app.listen(PORT, () => {
-      //console.log(`utils service is running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error("Failed to start the application:", error);
-    process.exit(1);
+  } catch (err) {
+    console.error("Service init failed:", err);
   }
-}; 
-bootstrap();
+};
+
+// Start immediately
+startServer();
+
+// Run background jobs separately
+initServices();

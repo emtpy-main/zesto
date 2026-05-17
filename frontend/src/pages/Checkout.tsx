@@ -39,7 +39,7 @@ const Checkout = () => {
         );
         setAddresses(data.addresses || []);
       } catch (error) {
-        //console.log(error);
+        console.log(error);
       } finally {
         setloadingAddress(false);
       }
@@ -48,7 +48,7 @@ const Checkout = () => {
   }, [cart]);
 
   // useEffect(()=>{
-  //   //console.log(addresses);
+  //   console.log(addresses);
   // },[addresses])
   const navigate = useNavigate();
   if (!cart || cart.length == 0) {
@@ -119,7 +119,7 @@ const Checkout = () => {
             toast.success("Payment successful🎉");
             navigate("/paymentsuccess/" + response.razorpay_payment_id);
           } catch (error) {
-            //console.log(error);
+            console.log(error);
             toast.error("Payment verification failed");
           }
         },
@@ -130,7 +130,7 @@ const Checkout = () => {
       const razorpay = new (window as any).Razorpay(options);
       razorpay.open();
     } catch (error) {
-      //console.log(error);
+      console.log(error);
       toast.error("Payment failed please refresh page");
     }
   };
@@ -241,7 +241,9 @@ const Checkout = () => {
           Pay with Razorpay
         </button>
       </div>
-      <Footer/>
+      <div className="w-full mt-auto relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 };

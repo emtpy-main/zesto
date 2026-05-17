@@ -5,10 +5,10 @@ const connectDB = async()=>{
         await mongoose.connect(process.env.MONGO_URI as string,{
             dbName : "Zesto",
         })
-        //console.log("connected to mongodb");
+        console.log("connected to mongodb");
     }
     catch(error){
-        //console.log(error);
+        console.log(error);
     }
 };
 export default connectDB;

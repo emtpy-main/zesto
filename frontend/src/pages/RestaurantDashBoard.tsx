@@ -24,7 +24,7 @@ const Restaurant = () => {
   const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<String | "menu">("menu");
-  const { user, setIsAuth, setUser } = useAppData();
+  const { user} = useAppData();
 
   const fetchMyRestaurant = async () => {
     try {
@@ -42,7 +42,7 @@ const Restaurant = () => {
         window.location.reload();
       }
     } catch (error: any) {
-      // //console.log(error.message);
+      // console.log(error.message);
     } finally {
       setLoading(false);
     }
@@ -65,7 +65,7 @@ const Restaurant = () => {
       );
       setMenuItems(data);
     } catch (error) {
-      // //console.log(error);
+      // console.log(error);
     }
   };
   useEffect(() => {
@@ -102,7 +102,7 @@ const Restaurant = () => {
     return <AddRestaurant fetchMyRestaurant={fetchMyRestaurant} />;
   }
   return (
-    <div className="relative min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-red-100 selection:text-red-900">
+    <div className="relative flex flex-col min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-red-100 selection:text-red-900">
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Subtle Dot Grid Pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
@@ -139,7 +139,8 @@ const Restaurant = () => {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+      {/* Added flex-1 and w-full here to push the footer down normally */}
+      <main className="relative z-10 flex-1 w-full mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
         {/* CONDITIONAL RENDER: IF NOT VERIFIED */}
         {!restaurant.isVerified ? (
           <div className="mx-auto max-w-3xl space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pt-8">
@@ -303,7 +304,11 @@ const Restaurant = () => {
           </>
         )}
       </main>
-      <Footer/>
+
+      {/* Removed absolute positioning so it flows naturally under the main content */}
+      <div className="w-full mt-auto relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 };

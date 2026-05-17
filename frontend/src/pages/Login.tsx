@@ -80,61 +80,65 @@ const Login = () => {
   
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-slate-50/50 px-4 font-sans overflow-hidden animate-fade-in">
-       
-      <div className="absolute top-[-10%] left-[10%] w-[25rem] h-[25rem] rounded-full bg-[#e23774]/25 blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-[-5%] right-[-5%] w-[30rem] h-[30rem] rounded-full bg-purple-400/20 blur-[120px] pointer-events-none"></div>
-      <div className="absolute top-[20%] right-[15%] w-64 h-64 rounded-full bg-orange-200/30 blur-[90px] pointer-events-none"></div>
-      <div className="absolute bottom-[20%] left-[-5%] w-80 h-80 rounded-full bg-pink-300/30 blur-[100px] pointer-events-none"></div>
-  
-      <div className="relative z-10 w-full max-w-sm space-y-8 bg-white/50 backdrop-blur-2xl p-8 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.08)] border border-white/60">
-         
-        <div>
-          <h1 className="text-center text-4xl font-extrabold text-[#e23774] mb-2 tracking-tight drop-shadow-sm">
-            Zesto
-          </h1>
-          <p className="text-center text-sm text-gray-600 font-medium">
-            Log in or Sign up to continue
-          </p>
-        </div>
- 
-        <div className="space-y-4">
-          <button
-            onClick={() => googleLogin()}
-            disabled={loading}
-            className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/80 bg-white/70 backdrop-blur-md px-4 py-3.5 text-gray-700 font-semibold shadow-sm hover:bg-white hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] disabled:opacity-70 disabled:pointer-events-none"
-          >
-            <FcGoogle size={22} />
-            {loading ? "Redirecting..." : "Continue with Google"}
-          </button>
+      
+  <div className="absolute top-[-10%] left-[10%] w-[25rem] h-[25rem] rounded-full bg-[#e23774]/25 blur-[120px] pointer-events-none"></div>
+  <div className="absolute bottom-[-5%] right-[-5%] w-[30rem] h-[30rem] rounded-full bg-purple-400/20 blur-[120px] pointer-events-none"></div>
+  <div className="absolute top-[20%] right-[15%] w-64 h-64 rounded-full bg-orange-200/30 blur-[90px] pointer-events-none"></div>
+  <div className="absolute bottom-[20%] left-[-5%] w-80 h-80 rounded-full bg-pink-300/30 blur-[100px] pointer-events-none"></div>
 
-          <div className="relative flex items-center justify-center py-2">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300/50"></div>
-            </div>
-            <div className="relative bg-transparent px-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
-              Or
-            </div>
-          </div>
-
-          <button
-            onClick={() => setShowEmailForm(true)}
-            className="flex w-full items-center justify-center gap-3 rounded-xl bg-[#e23774]/90 backdrop-blur-md px-4 py-3.5 text-white font-semibold shadow-[0_4px_14px_0_rgba(226,55,116,0.39)] hover:shadow-[0_6px_20px_rgba(226,55,116,0.23)] hover:bg-[#e23774] hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]"
-          >
-            <FiMail size={20} />
-            Continue with Email
-          </button>
-        </div>
- 
-        {/* Footer */}
-        <p className="text-center text-xs text-gray-500 leading-relaxed font-medium">
-          By continuing, you agree with our{" "}
-          <a href="#" className="text-[#e23774] hover:text-[#c92f66] transition-colors underline decoration-[#e23774]/30 underline-offset-2">Terms of Service</a> &{" "}
-          <a href="#" className="text-[#e23774] hover:text-[#c92f66] transition-colors underline decoration-[#e23774]/30 underline-offset-2">Privacy Policy</a>
-        </p>
-
-      </div>
-      <Footer/>
+  <div className="relative z-10 w-full max-w-sm space-y-8 bg-white/50 backdrop-blur-2xl p-8 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.08)] border border-white/60">
+      
+    <div>
+      <h1 className="text-center text-4xl font-extrabold text-[#e23774] mb-2 tracking-tight drop-shadow-sm">
+        Zesto
+      </h1>
+      <p className="text-center text-sm text-gray-600 font-medium">
+        Log in or Sign up to continue
+      </p>
     </div>
+
+    <div className="space-y-4">
+      <button
+        onClick={() => googleLogin()}
+        disabled={loading}
+        className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/80 bg-white/70 backdrop-blur-md px-4 py-3.5 text-gray-700 font-semibold shadow-sm hover:bg-white hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] disabled:opacity-70 disabled:pointer-events-none"
+      >
+        <FcGoogle size={22} />
+        {loading ? "Redirecting..." : "Continue with Google"}
+      </button>
+
+      <div className="relative flex items-center justify-center py-2">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-gray-300/50"></div>
+        </div>
+        <div className="relative bg-transparent px-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
+          Or
+        </div>
+      </div>
+
+      <button
+        onClick={() => setShowEmailForm(true)}
+        className="flex w-full items-center justify-center gap-3 rounded-xl bg-[#e23774]/90 backdrop-blur-md px-4 py-3.5 text-white font-semibold shadow-[0_4px_14px_0_rgba(226,55,116,0.39)] hover:shadow-[0_6px_20px_rgba(226,55,116,0.23)] hover:bg-[#e23774] hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]"
+      >
+        <FiMail size={20} />
+        Continue with Email
+      </button>
+    </div>
+
+    {/* Terms */}
+    <p className="text-center text-xs text-gray-500 leading-relaxed font-medium">
+      By continuing, you agree with our{" "}
+      <a href="#" className="text-[#e23774] hover:text-[#c92f66] transition-colors underline decoration-[#e23774]/30 underline-offset-2">Terms of Service</a> &{" "}
+      <a href="#" className="text-[#e23774] hover:text-[#c92f66] transition-colors underline decoration-[#e23774]/30 underline-offset-2">Privacy Policy</a>
+    </p>
+
+  </div>
+  
+  {/* Footer explicitly positioned at the bottom */}
+  <div className="absolute bottom-0 left-0 w-full">
+    <Footer/>
+  </div>
+</div>
   );
 };
 

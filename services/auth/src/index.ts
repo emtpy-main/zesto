@@ -12,7 +12,7 @@ connectRabbitMQ();
 const PORT = process.env.PORT || 5000;
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );
@@ -23,5 +23,5 @@ app.use("/api/auth",authRoute);
 
 app.listen(PORT,()=>{
     connectDB();
-    //console.log(`Auth service is running on port ${PORT}`);
+    console.log(`Auth service is running on port ${PORT}`);
 })

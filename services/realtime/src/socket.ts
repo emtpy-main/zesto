@@ -25,7 +25,7 @@ export const initSocket = (server : http.Server)=>{
             next(); // import for proper working 
         }
         catch(error){
-            //console.log("❌ Socket auth failed: ",error);
+            console.log("❌ Socket auth failed: ",error);
             next(new Error("Unauthorized"));
         }
     })
@@ -40,11 +40,11 @@ export const initSocket = (server : http.Server)=>{
         if(user.restaurantId){
             socket.join(`restaurant:${user.restaurantId}`);
         }
-        //console.log(`User connected: ${userId}`);
-        //console.log("Socket Room : ",[...socket.rooms]);
+        console.log(`User connected: ${userId}`);
+        console.log("Socket Room : ",[...socket.rooms]);
 
         socket.on('disconnect',()=>{
-            //console.log(`User disconnected: ${userId}`);
+            console.log(`User disconnected: ${userId}`);
         })
     })
     return io;

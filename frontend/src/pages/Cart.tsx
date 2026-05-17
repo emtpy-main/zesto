@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAppData } from "../context/AppContext";
 import { useState } from "react";
-import type { ICart, IMenuItem, IRestaurant } from "../types";
+import type {IMenuItem, IRestaurant } from "../types";
 import { restaurantService } from "../main";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -278,7 +278,10 @@ const Cart = () => {
           </button>
         </div>
       </div>
-      <Footer/>
+      <div className="w-full mt-auto relative z-10">
+        <Footer />
+      </div>
+      
     </div>
   );
 };

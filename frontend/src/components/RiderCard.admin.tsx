@@ -3,7 +3,6 @@ import { adminService } from "../main";
 import toast from "react-hot-toast";
 
 const AdminRiderCard = ({
-  user,
   rider,
   onVerify,
 }: {

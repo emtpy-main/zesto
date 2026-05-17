@@ -26,6 +26,6 @@ app.use("/api/address",addressRoutes);
 app.use("/api/order",orderRoutes);
 
 app.listen(PORT,()=>{
-    //console.log(`restaurant service is running on port ${PORT}`);
+    console.log(`restaurant service is running on port ${PORT}`);
     connectDB();    
 })

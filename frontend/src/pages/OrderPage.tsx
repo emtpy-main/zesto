@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../context/SocketContext";
 import type { IOrder } from "../types";
@@ -22,7 +22,7 @@ const OrderPage = () => {
       });
       setOrder(data);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -55,7 +55,7 @@ const OrderPage = () => {
   useEffect(() => {
     if (!socket) return;
     const onRiderLocation = ({ latitude, longitude }: any) => {
-      //console.log("Rider location: ", latitude, longitude);
+      console.log("Rider location: ", latitude, longitude);
       setRiderLoaction([latitude, longitude]);
     };
     socket.on("rider:location", onRiderLocation);
@@ -178,12 +178,9 @@ const OrderPage = () => {
             </div>
           </div>
 
-          {/* ======================================= */}
-          {/* RIGHT COLUMN: Order Details (Col 8-12)  */}
-          {/* ======================================= */}
+
           <div className="lg:col-span-5 space-y-6">
-            
-            {/* Items List - Changed from rounded-3xl to rounded-xl */}
+             
             <div className="rounded-xl bg-white p-6 shadow-sm border border-gray-100">
               <div className="flex items-center gap-2 mb-4 pb-4 border-b border-gray-100">
                 <BiReceipt className="text-xl text-[#e23744]" />
@@ -273,7 +270,9 @@ const OrderPage = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+       <div className="w-full mt-auto relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 };

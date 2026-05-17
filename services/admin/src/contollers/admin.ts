@@ -14,7 +14,7 @@ export const getPendingRestaurants = TryCatch(async (req, res) => {
         restaurants
     })
     const result = await (await getRestaurantCollection()).find({isVerified:false}).limit(2).toArray();
-    // //console.log(result);
+    // console.log(result);
 });
 export const getPendingRiders = TryCatch(async (req, res) => {
   const riders = await (await getRiderCollection())

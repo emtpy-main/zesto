@@ -11,7 +11,13 @@ dotenv.config();
 await connectRabbitMQ();
 startOrderReadyConsumer();
 const app = express();
-app.use(cors())
+app.use(cors({
+  origin: [
+    'http://localhost:5173',  
+    process.env.FRONTEND_URL as string
+  ],
+  credentials: true  
+}));
 app.use(express.json())
 
 
@@ -21,9 +27,9 @@ app.use('/api/rider',riderRoutes);
 connectDB()
   .then(() => {
     app.listen(process.env.PORT, () => {
-      //console.log(`Rider service is running on port ${process.env.PORT}`);
+      console.log(`Rider service is running on port ${process.env.PORT}`);
     });
   })
   .catch(() => {
-    //console.log("Error while connecting to db 📊");
+    console.log("Error while connecting to db 📊");
   });

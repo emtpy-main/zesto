@@ -60,7 +60,7 @@ const Home = () => {
       );
       setRestaurants(data.restaurants ?? []);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -141,7 +141,9 @@ const Home = () => {
           </p>
         </div>
       )}
-      <Footer/>
+     <div className="w-full mt-auto relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 };

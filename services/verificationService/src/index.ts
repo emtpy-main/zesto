@@ -18,6 +18,6 @@ app.use("/api/internal/v1",router)
 // })
 connectDB().then(()=>{
     app.listen(process.env.PORT,()=>{
-        //console.log(`VerificationService is running on Port - ${process.env.PORT}`);
+        console.log(`VerificationService is running on Port - ${process.env.PORT}`);
     })
 })

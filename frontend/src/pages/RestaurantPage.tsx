@@ -27,7 +27,7 @@ const RestaurantPage = () => {
       );
       setRestaurant(data?.restaurant || null);
     } catch (error) {
-     // //console.log(error);
+      // console.log(error);
     } finally {
       setLoading(false);
     }
@@ -45,7 +45,7 @@ const RestaurantPage = () => {
       );
       setMenuitems(data);
     } catch (error) {
-     // //console.log(error);
+      // console.log(error);
     }
   };
   useEffect(() => {
@@ -92,20 +92,26 @@ const RestaurantPage = () => {
     );
   }
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6 space-y-6">
-      <RestaurantProfile
-        restaurant={restaurant}
-        onUpdate={setRestaurant}
-        isSeller={false}
-      />
-      <div className="rounded-xl bg-white shadow-sm p-4">
-        <MenuItems
+    <div className="flex flex-col min-h-screen bg-gray-50"> 
+      <div className="flex-1 w-full px-4 py-6 space-y-6">
+        <RestaurantProfile
+          restaurant={restaurant}
+          onUpdate={setRestaurant}
           isSeller={false}
-          items={menuitems}
-          onItemDeleted={() => {}}
         />
+
+        <div className="rounded-xl bg-white shadow-sm p-4">
+          <MenuItems
+            isSeller={false}
+            items={menuitems}
+            onItemDeleted={() => {}}
+          />
+        </div>
       </div>
-      <Footer/>
+ 
+       <div className="w-full mt-auto relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 };

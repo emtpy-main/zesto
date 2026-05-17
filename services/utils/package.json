@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "prebuild": "copyfiles -u 1 src/templates/*.hbs dist/templates",
-    "build": "tsc",
+    "prebuild": "copyfiles -u 1 src/templates/*.hbs dist/",
+    "build": "tsc && copyfiles -u 1 \"src/templates/**/*.hbs\" dist/",
     "start": "node dist/index.js",
     "dev": "npm run prebuild && concurrently \"tsc --watch\" \"node --watch dist/index.js\""
   },
@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/amqplib": "^0.10.8",
     "@types/cors": "^2.8.19",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.6",
@@ -23,7 +24,6 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@types/amqplib": "^0.10.8",
     "@types/axios": "^0.9.36",
     "amqplib": "^1.0.3",
     "axios": "^1.14.0",

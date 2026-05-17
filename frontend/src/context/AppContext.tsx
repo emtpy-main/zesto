@@ -47,7 +47,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       setUser(data);
       setIsAuth(true);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -65,7 +65,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       setSubTotal(data.subTotal || 0);
       setQuantity(data.cartLength || 0);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   }
 

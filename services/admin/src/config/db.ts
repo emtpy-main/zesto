@@ -10,6 +10,6 @@ export const connectDb=async():Promise<Db>=>{
     await client.connect();
 
     db=client.db(process.env.DBNAME);
-    //console.log("Admin serive connnected to mongodb")
+    console.log("Admin serive connnected to mongodb")
     return db;
 }

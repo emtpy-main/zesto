@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppData } from "../context/AppContext";
 import { useSocket } from "../context/SocketContext";
 import axios from "axios";
@@ -136,7 +136,7 @@ const RiderDashboard = () => {
       );
       setCurrentOrder(data.order);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
       setCurrentOrder(null);
     }
   };
@@ -427,7 +427,7 @@ const RiderDashboard = () => {
                   </h3>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    {incomingOrders.map((id, i) => (
+                    {incomingOrders.map((id) => (
                       <RiderOrderRequest
                         key={id}
                         orderId={id}
@@ -481,7 +481,9 @@ const RiderDashboard = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+        <div className="w-full mt-auto relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 };

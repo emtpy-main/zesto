@@ -46,7 +46,7 @@ const RiderCurrentOrder = ({ order, onStatusUpdate }: Props) => {
   const confirmOrderDelivery = async () => {
     setUpdating(true);
     try {
-      //console.log(order._id);
+      console.log(order._id);
       await axios.put(
         `${riderService}/api/rider/order/update/confirmation/${order._id}`,
         { otpCode },
